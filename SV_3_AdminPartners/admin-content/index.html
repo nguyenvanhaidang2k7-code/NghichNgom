@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản trị nội dung - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../admin-dashboard/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm người dùng, đối tác, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Q</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: QUẢN TRỊ HỆ THỐNG ========== -->
+    <aside class="sidebar">
+      <a href="../admin-dashboard/index.html">Tổng quan</a>
+      <a href="../admin-user-management/index.html">Quản trị người dùng</a>
+      <a href="index.html" class="active">Quản trị nội dung</a>
+      <a href="../admin-orders/index.html">Quản trị đơn đặt</a>
+      <a href="../admin-partners/index.html">Đối tác địa phương</a>
+      <a href="../admin-revenue/index.html">Quản trị doanh thu</a>
+      <a href="../admin-settings/index.html">Cài đặt hệ thống</a>
+      <div class="sidebar-footer">Quản trị hệ thống</div>
+    </aside>
+
+    <main class="content">
+      <!-- Thanh công cụ: tìm + chip lọc duyệt + nút quay lại trang đối tác -->
+      <div class="card">
+        <div class="toolbar">
+          <div class="field grow">
+            <label for="search-input">Tìm trải nghiệm</label>
+            <div class="search-box">🔍<input id="search-input" placeholder="Tìm theo tên trải nghiệm..."></div>
+          </div>
+          <div class="chip-row" id="chip-row">
+            <button class="chip active" data-loc="tatca">Tất cả</button>
+            <button class="chip" data-loc="cho">Chờ duyệt</button>
+            <button class="chip" data-loc="da">Đã duyệt</button>
+          </div>
+          <a class="btn btn-secondary" href="../partner-overview/index.html">Quay lại đối tác</a>
+        </div>
+      </div>
+
+      <!-- ========== TÍNH NĂNG AI-2: ROUTE BALANCE ASSISTANT ==========
+           AI tự động quét các tuyến đường / lịch trình do người dùng tạo,
+           cảnh báo lịch trình quá dày hoặc 2 điểm đến cách nhau quá xa (trên 30km),
+           gợi ý cân bằng + 3 nút duyệt: Chấp nhận / Yêu cầu chỉnh sửa / Từ chối. -->
+      <div class="card ai-card">
+        <div class="ai-head">
+          <div class="ai-intro">
+            <h3 class="ai-title">🤖 AI-2 · Route Balance Assistant</h3>
+            <p class="ai-sub">AI tự động quét các tuyến đường / lịch trình do người dùng và đối tác tạo ra — phát hiện lịch trình quá dày hoặc khoảng cách giữa 2 điểm đến quá xa (trên 30km) và đề xuất phương án cân bằng.</p>
+          </div>
+          <!-- Trạng thái AI: chấm màu + chữ (chờ quét / đang quét / phát hiện cảnh báo) -->
+          <div class="ai-status" id="ai-status">
+            <span class="ai-dot"></span><span id="ai-status-text">Chờ quét</span>
+          </div>
+          <button class="btn btn-primary" id="ai-scan-btn" type="button">🔍 Quét lộ trình ngay</button>
+        </div>
+        <!-- Thanh tiến trình mô phỏng quá trình AI quét -->
+        <div class="ai-progress" id="ai-progress" hidden>
+          <div class="ai-progress-bar" id="ai-progress-bar"></div>
+        </div>
+        <!-- Kết quả cảnh báo AI (kèm gợi ý + 3 nút duyệt): JS render -->
+        <div id="ai-results"></div>
+      </div>
+
+      <!-- Danh sách nội dung: JS render -->
+      <div id="danh-sach"></div>
+    </main>
+  </div>
+
+  <!-- ========== MODAL CHI TIẾT NỘI DUNG (READ + duyệt / từ chối) ========== -->
+  <div class="modal-overlay" id="modal-chi-tiet">
+    <div class="modal">
+      <h3>Chi tiết trải nghiệm</h3>
+      <dl class="detail">
+        <dt>Tên</dt><dd id="ct-ten"></dd>
+        <dt>Loại</dt><dd id="ct-loai"></dd>
+        <dt>Giá</dt><dd id="ct-gia"></dd>
+        <dt>Sức chứa</dt><dd id="ct-suc-chua"></dd>
+        <dt>Ngày hoạt động</dt><dd id="ct-ngay"></dd>
+        <dt>Khung giờ</dt><dd id="ct-gio"></dd>
+        <dt>Mô tả</dt><dd id="ct-mo-ta"></dd>
+        <dt>Trạng thái</dt><dd id="ct-trang-thai"></dd>
+        <dt>Duyệt</dt><dd id="ct-duyet-trang-thai"></dd>
+      </dl>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="ct-duyet" type="button">Duyệt bài</button>
+        <button class="btn btn-danger" id="ct-tu-choi" type="button">Từ chối</button>
+        <button class="btn btn-ghost" id="ct-dong" type="button">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL XÁC NHẬN (từ chối / xóa nội dung) ========== -->
+  <div class="modal-overlay" id="modal-xac-nhan">
+    <div class="modal modal-sm">
+      <h3>Xác nhận thao tác</h3>
+      <p class="xn-text" id="xn-thong-bao"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="xn-huy" type="button">Hủy</button>
+        <button class="btn btn-danger" id="xn-dong-y" type="button">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

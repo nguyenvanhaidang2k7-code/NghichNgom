@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập / Đăng ký - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== MÀN HÌNH ĐĂNG NHẬP + ĐĂNG KÝ (GỘP CHUNG 1 TRANG) ==========
+       Trái: thẻ giới thiệu thương hiệu (nội dung đổi theo tab đang mở).
+       Phải: THANH TAB chuyển đổi mượt giữa "Đăng nhập" và "Đăng ký".
+       - Quản trị viên: đăng nhập thành công -> chuyển vào trang quản trị.
+       - Đối tác địa phương: đăng nhập thành công -> chuyển vào trang
+         quản lý của đối tác (partner-overview).
+       - Khách du lịch / Hướng dẫn viên: toast "tính năng đang phát triển".
+       - Tab Đăng ký: tạo tài khoản mới, ghi vào LocalStorage (tw_users);
+         vai trò Đối tác tạo thêm hồ sơ chờ duyệt trong tw_partners.
+       Mở thẳng tab đăng ký bằng đường dẫn: index.html#dang-ky -->
+  <main class="login-card" id="login-card" data-mode="dangnhap">
+    <!-- Cột trái: logo + tên hệ thống -->
+    <div class="login-brand">
+      <div class="logo-art">🧳✈️</div>
+      <h1>TripWeaveAI</h1>
+      <p>Du lịch thông minh theo sở thích</p>
+
+      <!-- Các điểm nhấn: tự đổi nội dung theo tab Đăng nhập / Đăng ký -->
+      <ul class="brand-points">
+        <li data-cho="dangnhap"><span>🛡️</span> Quản trị viên vào thẳng khu vận hành hệ thống</li>
+        <li data-cho="dangnhap"><span>🏪</span> Đối tác địa phương vào trang quản lý riêng</li>
+        <li data-cho="dangnhap"><span>🔐</span> Phiên đăng nhập được ghi nhớ trên trình duyệt</li>
+        <li data-cho="dangky"><span>📝</span> Tạo tài khoản miễn phí, không cần cài đặt</li>
+        <li data-cho="dangky"><span>🔒</span> Mật khẩu được đo độ mạnh ngay khi đang gõ</li>
+        <li data-cho="dangky"><span>🏪</span> Vai trò Đối tác có hồ sơ chờ duyệt riêng</li>
+      </ul>
+    </div>
+
+    <!-- Cột phải: THANH TAB + 2 PANEL (đăng nhập / đăng ký) -->
+    <div class="login-panel">
+      <!-- Thanh tab: con trượt .tab-ind di chuyển mượt giữa 2 nút -->
+      <div class="tabs" id="tabs" data-active="dangnhap" role="tablist" aria-label="Đăng nhập hoặc đăng ký">
+        <span class="tab-ind" aria-hidden="true"></span>
+        <button class="tab active" type="button" role="tab" id="tab-dangnhap" data-tab="dangnhap"
+                aria-controls="login-form" aria-selected="true">Đăng nhập</button>
+        <button class="tab" type="button" role="tab" id="tab-dangky" data-tab="dangky"
+                aria-controls="register-form" aria-selected="false">Đăng ký</button>
+      </div>
+
+      <!-- ================= PANEL 1: FORM ĐĂNG NHẬP ================= -->
+      <form class="login-form panel active" id="login-form" data-panel="dangnhap"
+            role="tabpanel" aria-labelledby="tab-dangnhap" novalidate>
+        <h2>Chào mừng trở lại 👋</h2>
+
+        <!-- BỘ CHỌN VAI TRÒ: 4 thẻ radio (Quản trị viên / Khách du lịch / Hướng dẫn viên / Đối tác địa phương) -->
+        <div class="field">
+          <label>Vai trò đăng nhập</label>
+          <div class="role-picker" id="role-picker">
+            <label class="role-opt active">
+              <input type="radio" name="vai-tro" value="admin" checked>
+              <span class="role-ico">🛡️</span>
+              <span class="role-name">Quản trị viên</span>
+              <span class="role-desc">Vận hành &amp; kiểm duyệt</span>
+            </label>
+            <label class="role-opt">
+              <input type="radio" name="vai-tro" value="traveler">
+              <span class="role-ico">🧳</span>
+              <span class="role-name">Khách du lịch</span>
+              <span class="role-desc">Tìm &amp; đặt trải nghiệm</span>
+            </label>
+            <label class="role-opt">
+              <input type="radio" name="vai-tro" value="guide">
+              <span class="role-ico">🧭</span>
+              <span class="role-name">Hướng dẫn viên</span>
+              <span class="role-desc">Dẫn tour &amp; lịch trình</span>
+            </label>
+            <label class="role-opt">
+              <input type="radio" name="vai-tro" value="partner">
+              <span class="role-ico">🏪</span>
+              <span class="role-name">Đối tác địa phương</span>
+              <span class="role-desc">Quản lý trải nghiệm &amp; đơn đặt</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" value="admin@tripweave.demo" placeholder="ban@vidu.com">
+        </div>
+
+        <div class="field">
+          <label for="password">Mật khẩu</label>
+          <input id="password" type="password" value="123456" placeholder="••••••">
+        </div>
+
+        <!-- Trạng thái LỖI: hiện khi nhập thiếu / sai định dạng -->
+        <p class="form-error" id="form-error" hidden></p>
+
+        <!-- Nút bấm có trạng thái LOADING (spinner) khi gửi form -->
+        <button class="btn btn-primary" id="submit-btn" type="submit">Đăng nhập</button>
+
+        <a class="forgot" href="#" id="forgot-link">Quên mật khẩu?</a>
+
+        <!-- Dòng chuyển nhanh sang TAB ĐĂNG KÝ (không rời khỏi trang) -->
+        <p class="switch-line">Chưa có tài khoản?
+          <a href="#dang-ky" id="lnk-sang-dang-ky">Đăng ký ngay</a>
+        </p>
+
+        <p class="hint">Demo: Quản trị viên → trang quản trị • Đối tác địa phương → trang quản lý đối tác • Khách du lịch / Hướng dẫn viên → thông báo "đang phát triển".</p>
+      </form>
+
+      <!-- ================= PANEL 2: FORM ĐĂNG KÝ (gộp chung trang login) ================= -->
+      <form class="login-form panel" id="register-form" data-panel="dangky"
+            role="tabpanel" aria-labelledby="tab-dangky" novalidate>
+        <h2>Tạo tài khoản mới ✨</h2>
+
+        <!-- BỘ CHỌN VAI TRÒ khi đăng ký (cùng kiểu thẻ với form đăng nhập) -->
+        <div class="field">
+          <label>Bạn đăng ký với vai trò</label>
+          <div class="role-picker" id="role-picker-dk">
+            <label class="role-opt active">
+              <input type="radio" name="vai-tro-dk" value="traveler" checked>
+              <span class="role-ico">🧳</span>
+              <span class="role-name">Khách du lịch</span>
+              <span class="role-desc">Tìm &amp; đặt trải nghiệm</span>
+            </label>
+            <label class="role-opt">
+              <input type="radio" name="vai-tro-dk" value="partner">
+              <span class="role-ico">🏪</span>
+              <span class="role-name">Đối tác địa phương</span>
+              <span class="role-desc">Cung cấp dịch vụ &amp; tour</span>
+            </label>
+            <label class="role-opt">
+              <input type="radio" name="vai-tro-dk" value="guide">
+              <span class="role-ico">🧭</span>
+              <span class="role-name">Hướng dẫn viên</span>
+              <span class="role-desc">Dẫn tour &amp; lịch trình</span>
+            </label>
+            <label class="role-opt">
+              <input type="radio" name="vai-tro-dk" value="admin">
+              <span class="role-ico">🛡️</span>
+              <span class="role-name">Quản trị viên</span>
+              <span class="role-desc">Vận hành &amp; kiểm duyệt</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 2 ô trên cùng 1 hàng: họ tên + số điện thoại -->
+        <div class="grid-2">
+          <div class="field">
+            <label for="dk-ten">Họ và tên <i>*</i></label>
+            <input id="dk-ten" type="text" placeholder="Nguyễn Văn An" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="dk-sdt">Số điện thoại <i>*</i></label>
+            <input id="dk-sdt" type="tel" placeholder="0901 234 567" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="dk-email">Email <i>*</i></label>
+          <input id="dk-email" type="email" placeholder="ban@vidu.com" autocomplete="email">
+        </div>
+
+        <!-- Khối CHỈ HIỆN khi chọn vai trò "Đối tác địa phương" -->
+        <div class="grid-2 partner-only" id="dk-khoi-doi-tac">
+          <div class="field">
+            <label for="dk-khu-vuc">Khu vực hoạt động <i>*</i></label>
+            <input id="dk-khu-vuc" type="text" placeholder="Hà Nội" list="ds-khu-vuc" autocomplete="off">
+            <datalist id="ds-khu-vuc">
+              <option value="Hà Nội"></option>
+              <option value="TP. Hồ Chí Minh"></option>
+              <option value="Đà Nẵng"></option>
+              <option value="Quảng Ninh"></option>
+              <option value="Lào Cai"></option>
+              <option value="Hòa Bình"></option>
+              <option value="Thừa Thiên Huế"></option>
+              <option value="Bà Rịa - Vũng Tàu"></option>
+            </datalist>
+          </div>
+          <div class="field">
+            <label for="dk-linh-vuc">Lĩnh vực <i>*</i></label>
+            <select id="dk-linh-vuc">
+              <option value="Lưu trú">Lưu trú (homestay, khách sạn)</option>
+              <option value="Tour trải nghiệm">Tour trải nghiệm</option>
+              <option value="Ẩm thực">Ẩm thực</option>
+              <option value="Du thuyền">Du thuyền</option>
+              <option value="Lữ hành">Lữ hành</option>
+              <option value="Khác">Khác</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="dk-mat-khau">Mật khẩu <i>*</i></label>
+          <div class="pass-wrap">
+            <input id="dk-mat-khau" type="password" placeholder="Tối thiểu 6 ký tự" autocomplete="new-password">
+            <button class="pass-toggle" type="button" id="btn-hien-mk" aria-label="Hiện / ẩn mật khẩu">👁</button>
+          </div>
+          <!-- Thanh đo ĐỘ MẠNH mật khẩu (cập nhật ngay khi đang gõ) -->
+          <div class="strength"><span class="strength-bar" id="dk-strength-bar"></span></div>
+          <small class="strength-txt" id="dk-strength-txt">Độ mạnh mật khẩu: chưa nhập</small>
+        </div>
+
+        <div class="field">
+          <label for="dk-nhap-lai">Nhập lại mật khẩu <i>*</i></label>
+          <input id="dk-nhap-lai" type="password" placeholder="Gõ lại mật khẩu" autocomplete="new-password">
+        </div>
+
+        <!-- Điều khoản sử dụng -->
+        <label class="terms" for="dk-dieu-khoan">
+          <input type="checkbox" id="dk-dieu-khoan">
+          <span>Tôi đồng ý với <a href="#" id="lnk-dieu-khoan">Điều khoản dịch vụ</a> và
+            <a href="#" id="lnk-bao-mat">Chính sách bảo mật</a> của TripWeave AI. <i>*</i></span>
+        </label>
+
+        <!-- Trạng thái LỖI của form đăng ký -->
+        <p class="form-error" id="dk-form-error" hidden></p>
+
+        <!-- Nút có trạng thái LOADING (spinner) khi đang tạo tài khoản -->
+        <button class="btn btn-primary" id="dk-submit-btn" type="submit">Đăng ký tài khoản</button>
+
+        <!-- Dòng chuyển ngược về TAB ĐĂNG NHẬP -->
+        <p class="switch-line">Đã có tài khoản?
+          <a href="#dang-nhap" id="lnk-sang-dang-nhap">Đăng nhập ngay</a>
+        </p>
+
+        <p class="hint">Demo: tài khoản được ghi vào LocalStorage (<code>tw_users</code>) và hiển thị ở màn hình Quản trị người dùng; vai trò Đối tác tạo thêm hồ sơ <b>chờ duyệt</b> trong <code>tw_partners</code>.</p>
+      </form>
+    </div>
+  </main>
+
+  <!-- ========== MODAL "ĐĂNG KÝ THÀNH CÔNG" (trạng thái SUCCESS) ========== -->
+  <div class="modal-overlay" id="modal-dang-ky">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-tieu-de">
+      <div class="modal-ico">🎉</div>
+      <h3 id="modal-tieu-de">Đăng ký thành công!</h3>
+      <p id="modal-noi-dung">Tài khoản của bạn đã được tạo.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" type="button" id="btn-o-lai">Ở lại trang này</button>
+        <button class="btn btn-primary" type="button" id="btn-toi-dang-nhap">Tới form đăng nhập</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Khu vực hiển thị toast (thông báo thành công / lỗi) -->
+  <div id="toast-box"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

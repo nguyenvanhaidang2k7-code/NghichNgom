@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng quan - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm địa điểm, thành phố, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Đ</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: ĐỐI TÁC ĐỊA PHƯƠNG ========== -->
+    <aside class="sidebar">
+      <a href="index.html" class="active">Tổng quan</a>
+      <a href="../partner-activity-management/index.html">Trải nghiệm</a>
+      <a href="../partner-orders/index.html">Đơn đặt</a>
+      <a href="../partner-reviews/index.html">Đánh giá</a>
+      <a href="../partner-revenue/index.html">Doanh thu</a>
+      <a href="../partner-profile/index.html">Hồ sơ</a>
+      <div class="sidebar-footer">Đối tác địa phương</div>
+    </aside>
+
+    <!-- ========== NỘI DUNG TRANG TỔNG QUAN ========== -->
+    <main class="content">
+      <!-- 4 thẻ thống kê tính từ LocalStorage -->
+      <section class="stats" id="stats">
+        <div class="card"><p class="stat-label">Trải nghiệm đang hoạt động</p><p class="stat-value primary" id="stat-hoat-dong">--</p></div>
+        <div class="card"><p class="stat-label">Đơn chờ xác nhận</p><p class="stat-value warning" id="stat-don-cho">--</p></div>
+        <div class="card"><p class="stat-label">Đánh giá trung bình</p><p class="stat-value success" id="stat-danh-gia">--</p></div>
+        <div class="card"><p class="stat-label">Doanh thu tháng</p><p class="stat-value info" id="stat-doanh-thu">--</p></div>
+      </section>
+
+      <div class="grid-2">
+        <!-- Biểu đồ cột CSS: doanh thu 6 tháng -->
+        <div class="card">
+          <h3>Doanh thu 6 tháng gần nhất (triệu ₫)</h3>
+          <div class="chart" id="chart"></div>
+        </div>
+        <!-- Danh sách việc cần xử lý, bấm sang trang tương ứng -->
+        <div class="card">
+          <h3>Việc cần xử lý</h3>
+          <ul class="todo" id="viec-can-lam"></ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

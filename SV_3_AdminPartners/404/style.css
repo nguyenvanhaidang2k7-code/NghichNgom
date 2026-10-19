@@ -1,0 +1,237 @@
+/* =====================================================
+   TRANG LỖI 404 - TripWeave AI
+   Đồng bộ design token với trang đăng nhập / các trang
+   quản trị: tím indigo #6366f1, nền xám nhạt #f8fafc,
+   thẻ trắng bo góc 24px, bóng đổ nhẹ.
+   Toàn bộ hình minh hoạ viết bằng CSS thuần (không ảnh).
+   ===================================================== */
+
+/* --- 1. BIẾN MÀU DÙNG CHUNG (design token) --- */
+:root {
+  --primary: #6366f1;        /* Tím indigo chủ đạo */
+  --primary-dark: #4f46e5;   /* Tím đậm khi hover */
+  --bg: #f8fafc;             /* Nền tổng thể xám nhạt */
+  --card: #ffffff;           /* Nền thẻ trắng */
+  --text: #0f172a;           /* Chữ chính */
+  --muted: #64748b;          /* Chữ phụ mờ */
+  --border: #e2e8f0;         /* Viền nhạt */
+  --navy: #0f2a4a;           /* Xanh navy dùng cho tiêu đề */
+  --danger: #dc2626;         /* Màu lỗi / kim la bàn */
+  --shadow: 0 1px 2px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+  background:
+    radial-gradient(900px 420px at 12% -5%, #eef2ff 0%, rgba(238,242,255,0) 60%),
+    radial-gradient(700px 380px at 95% 8%, #f1f5f9 0%, rgba(241,245,249,0) 55%),
+    var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 20px;
+}
+
+/* --- 2. KHUNG NỘI DUNG --- */
+.err-wrap { width: 100%; max-width: 760px; display: flex; flex-direction: column; gap: 16px; }
+
+.err-card {
+  background: var(--card);
+  border-radius: 24px;              /* Bo góc mềm mại như thẻ đăng nhập */
+  box-shadow: var(--shadow);         /* Bóng đổ nhẹ */
+  border: 1px solid var(--border);
+  padding: 40px 44px 32px;
+  text-align: center;
+  animation: hien-len .5s ease both; /* Hiệu ứng xuất hiện nhẹ nhàng */
+}
+@keyframes hien-len { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.err-foot { color: var(--muted); font-size: 11px; text-align: center; }
+
+/* --- 3. HÌNH MINH HOẠ: SỐ 404 + LA BÀN + VALI ĐI LẠC --- */
+.art { display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
+
+.code {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 92px; font-weight: 800; line-height: 1;
+  color: var(--navy); letter-spacing: -2px;
+}
+.digit { text-shadow: 0 6px 18px rgba(15,42,74,.12); }
+
+/* Chiếc la bàn thay cho chữ số 0 */
+.compass {
+  position: relative; flex: 0 0 auto;
+  width: 96px; height: 96px; border-radius: 50%;
+  background: linear-gradient(160deg, #eef2ff, #ffffff 65%);
+  border: 6px solid #c7d2fe;
+  box-shadow: inset 0 2px 8px rgba(99,102,241,.18), 0 6px 18px rgba(99,102,241,.15);
+}
+/* Vòng chia độ nét đứt quay chậm bên trong */
+.ring {
+  position: absolute; inset: 8px; border-radius: 50%;
+  border: 2px dashed #a5b4fc;
+  animation: quay 14s linear infinite;
+}
+/* 4 vạch chia hướng Bắc / Đông / Nam / Tây */
+.tick { position: absolute; background: #a5b4fc; border-radius: 2px; }
+.tick.t1 { left: 50%; top: 4px;  width: 3px; height: 9px; margin-left: -1.5px; }
+.tick.t2 { right: 4px; top: 50%; width: 9px; height: 3px; margin-top: -1.5px; }
+.tick.t3 { left: 50%; bottom: 4px; width: 3px; height: 9px; margin-left: -1.5px; }
+.tick.t4 { left: 4px;  top: 50%; width: 9px; height: 3px; margin-top: -1.5px; }
+/* Kim la bàn lắc qua lại - ẩn dụ "đang mất phương hướng" */
+.needle {
+  position: absolute; left: 50%; top: 50%;
+  width: 6px; height: 40px; margin: -20px 0 0 -3px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, var(--danger) 50%, var(--navy) 50%);
+  transform-origin: 50% 50%;
+  animation: lac 3.2s ease-in-out infinite;
+}
+.pin {
+  position: absolute; left: 50%; top: 50%;
+  width: 10px; height: 10px; margin: -5px 0 0 -5px;
+  border-radius: 50%; background: #fff; border: 2px solid var(--primary);
+}
+@keyframes quay { to { transform: rotate(360deg); } }
+@keyframes lac { 0%, 100% { transform: rotate(-30deg); } 50% { transform: rotate(38deg); } }
+
+/* Đường nét đứt + chiếc vali trượt qua lại */
+.trail {
+  position: relative; width: 240px; height: 3px; margin-top: 22px; border-radius: 3px;
+  background: repeating-linear-gradient(90deg, #c7d2fe 0 10px, rgba(199,210,254,0) 10px 20px);
+}
+.bag {
+  position: absolute; top: -20px; left: -6px; font-size: 24px; line-height: 1;
+  animation: di-lac 7s ease-in-out infinite;
+}
+@keyframes di-lac {
+  0%   { left: -6px;   transform: scaleX(1); }
+  45%  { left: 214px;  transform: scaleX(1); }
+  50%  { left: 214px;  transform: scaleX(-1); }
+  95%  { left: -6px;   transform: scaleX(-1); }
+  100% { left: -6px;   transform: scaleX(1); }
+}
+
+/* --- 4. CHỮ TRONG THẺ LỖI --- */
+.eyebrow {
+  display: inline-block; margin-bottom: 10px;
+  background: #eef2ff; color: var(--primary-dark);
+  font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 99px;
+}
+.err-card h1 { color: var(--navy); font-size: 26px; line-height: 1.3; margin-bottom: 12px; }
+.desc { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 540px; margin: 0 auto 24px; }
+.desc code {
+  background: #f1f5f9; border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 6px;
+  color: var(--danger); font-size: 12.5px; font-weight: 600;
+  word-break: break-all;
+}
+
+/* --- 5. HAI NÚT HÀNH ĐỘNG CHÍNH --- */
+.actions {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  justify-content: center; margin-bottom: 30px;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: 0; border-radius: 12px; padding: 13px 22px;
+  font-size: 13.5px; font-weight: 700; font-family: inherit;
+  cursor: pointer; text-decoration: none; transition: all .2s;
+}
+.btn-ico { font-size: 15px; line-height: 1; }
+/* Nút chính: về trang đăng nhập (tím indigo của hệ thống) */
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(99,102,241,.28); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 22px rgba(99,102,241,.34); }
+/* Nút phụ: quay lại trang trước */
+.btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: #c7d2fe; background: #f8faff; transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+/* --- 6. LỐI TẮT TỚI CÁC KHU VỰC DEMO --- */
+.quick { border-top: 1px solid var(--border); padding-top: 22px; }
+.quick-title { color: var(--muted); font-size: 12px; font-weight: 600; margin-bottom: 14px; }
+.quick-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: left; }
+.quick-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 15px; border-radius: 14px;
+  border: 1px solid var(--border); background: #fff;
+  text-decoration: none; transition: all .2s;
+}
+.quick-item:hover {
+  border-color: var(--primary); background: #eef2ff;
+  transform: translateY(-2px); box-shadow: 0 6px 16px rgba(99,102,241,.14);
+}
+.q-ico {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  background: #eef2ff; font-size: 19px;
+}
+.quick-item:hover .q-ico { background: #fff; }
+.q-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.q-txt b { color: var(--text); font-size: 13px; }
+.q-txt small { color: var(--muted); font-size: 11px; line-height: 1.4; }
+
+/* --- 7. KHU HỖ TRỢ + PHÍM TẮT --- */
+.support {
+  margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--border);
+  color: var(--muted); font-size: 12px;
+}
+.link-btn {
+  background: none; border: 0; padding: 0 2px;
+  color: var(--primary); font-size: 12px; font-weight: 700;
+  font-family: inherit; cursor: pointer; text-decoration: underline;
+}
+.link-btn:hover { color: var(--primary-dark); }
+.shortcut { margin-top: 10px; color: #94a3b8; font-size: 11px; }
+kbd {
+  display: inline-block; min-width: 18px; padding: 2px 5px;
+  background: #f1f5f9; border: 1px solid var(--border); border-bottom-width: 2px;
+  border-radius: 5px; font-family: inherit; font-size: 10px; font-weight: 700; color: var(--text);
+}
+
+/* --- 8. TOAST THÔNG BÁO (dùng chung kiểu với các trang khác) --- */
+#toast-box { position: fixed; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 50; }
+.toast {
+  min-width: 200px; max-width: 340px; border-radius: 12px; padding: 12px 16px;
+  color: #fff; font-size: 13px; font-weight: 600; box-shadow: var(--shadow);
+  animation: slide .25s ease;
+}
+.toast.success { background: #16a34a; }
+.toast.error { background: var(--danger); }
+.toast.info { background: var(--primary); }
+@keyframes slide { from { transform: translateX(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* --- 9. RESPONSIVE --- */
+@media (max-width: 640px) {
+  body { padding: 20px 14px; }
+  .err-card { padding: 30px 20px 24px; border-radius: 20px; }
+  .code { font-size: 62px; gap: 4px; }
+  .compass { width: 66px; height: 66px; border-width: 5px; }
+  .needle { height: 28px; margin-top: -14px; }
+  .tick.t1, .tick.t3 { height: 6px; }
+  .tick.t2, .tick.t4 { width: 6px; }
+  .trail { width: 180px; }
+  @keyframes di-lac {
+    0%   { left: -6px;  transform: scaleX(1); }
+    45%  { left: 154px; transform: scaleX(1); }
+    50%  { left: 154px; transform: scaleX(-1); }
+    95%  { left: -6px;  transform: scaleX(-1); }
+    100% { left: -6px;  transform: scaleX(1); }
+  }
+  .err-card h1 { font-size: 20px; }
+  .desc { font-size: 13px; margin-bottom: 20px; }
+  .actions { flex-direction: column; }
+  .btn { width: 100%; }
+  .quick-grid { grid-template-columns: 1fr; }
+}
+
+/* --- 10. TÔN TRỌNG CÀI ĐẶT "GIẢM CHUYỂN ĐỘNG" CỦA HỆ ĐIỀU HÀNH --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .err-card { opacity: 1; transform: none; }
+}

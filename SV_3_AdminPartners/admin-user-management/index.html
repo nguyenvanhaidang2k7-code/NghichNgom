@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản trị người dùng - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../admin-dashboard/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm người dùng, đối tác, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Q</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: QUẢN TRỊ HỆ THỐNG ========== -->
+    <aside class="sidebar">
+      <a href="../admin-dashboard/index.html">Tổng quan</a>
+      <a href="index.html" class="active">Quản trị người dùng</a>
+      <a href="../admin-content/index.html">Quản trị nội dung</a>
+      <a href="../admin-orders/index.html">Quản trị đơn đặt</a>
+      <a href="../admin-partners/index.html">Đối tác địa phương</a>
+      <a href="../admin-revenue/index.html">Quản trị doanh thu</a>
+      <a href="../admin-settings/index.html">Cài đặt hệ thống</a>
+      <div class="sidebar-footer">Quản trị hệ thống</div>
+    </aside>
+
+    <main class="content">
+      <!-- Thanh công cụ: tìm theo tên/email + chip lọc + thêm người dùng -->
+      <div class="card">
+        <div class="toolbar">
+          <div class="field grow">
+            <label for="search-input">Tìm người dùng</label>
+            <div class="search-box">🔍<input id="search-input" placeholder="Tìm theo tên hoặc email..."></div>
+          </div>
+          <div class="chip-row" id="chip-row">
+            <button class="chip active" data-loc="tatca">Tất cả</button>
+            <button class="chip" data-loc="hoatdong">Đang hoạt động</button>
+            <button class="chip" data-loc="khoa">Bị khóa</button>
+          </div>
+          <button class="btn btn-primary" id="btn-them" type="button">+ Thêm người dùng</button>
+        </div>
+      </div>
+
+      <!-- Danh sách người dùng: JS render -->
+      <div id="danh-sach"></div>
+    </main>
+  </div>
+
+  <!-- ========== MODAL THÊM NGƯỜI DÙNG (CREATE) ========== -->
+  <div class="modal-overlay" id="modal-them">
+    <div class="modal modal-sm">
+      <h3>Thêm người dùng</h3>
+      <form id="form-them" class="form-stack" novalidate>
+        <div class="field"><label for="td-ten">Tên người dùng</label><input id="td-ten"></div>
+        <div class="field"><label for="td-email">Email</label><input id="td-email" type="email"></div>
+        <div class="field"><label for="td-vai-tro">Vai trò</label>
+          <select id="td-vai-tro">
+            <option>Khách du lịch</option><option>Đối tác</option><option>Quản trị</option>
+          </select>
+        </div>
+        <div class="field"><label for="td-mat-khau">Mật khẩu tạm</label><input id="td-mat-khau" type="password" value="123456"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="td-huy">Hủy</button>
+          <button type="submit" class="btn btn-primary">Thêm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== MODAL CHI TIẾT NGƯỜI DÙNG (READ + hành động) ========== -->
+  <div class="modal-overlay" id="modal-chi-tiet">
+    <div class="modal">
+      <h3>Chi tiết người dùng</h3>
+      <dl class="detail">
+        <dt>Tên</dt><dd id="ct-ten"></dd>
+        <dt>Email</dt><dd id="ct-email"></dd>
+        <dt>Vai trò</dt><dd id="ct-vai-tro"></dd>
+        <dt>Ngày tham gia</dt><dd id="ct-ngay"></dd>
+        <dt>Trạng thái</dt><dd id="ct-trang-thai"></dd>
+      </dl>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="ct-khoa" type="button">Khóa tài khoản</button>
+        <button class="btn btn-ghost" id="ct-xoa" type="button">Xóa người dùng</button>
+        <button class="btn btn-secondary" id="ct-dong" type="button">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL XÁC NHẬN (khóa / xóa) ========== -->
+  <div class="modal-overlay" id="modal-xac-nhan">
+    <div class="modal modal-sm">
+      <h3>Xác nhận thao tác</h3>
+      <p class="xn-text" id="xn-thong-bao"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="xn-huy" type="button">Hủy</button>
+        <button class="btn btn-danger" id="xn-dong-y" type="button">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ đối tác - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../partner-overview/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm địa điểm, thành phố, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Đ</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: ĐỐI TÁC ĐỊA PHƯƠNG ========== -->
+    <aside class="sidebar">
+      <a href="../partner-overview/index.html">Tổng quan</a>
+      <a href="../partner-activity-management/index.html">Trải nghiệm</a>
+      <a href="../partner-orders/index.html">Đơn đặt</a>
+      <a href="../partner-reviews/index.html">Đánh giá</a>
+      <a href="../partner-revenue/index.html">Doanh thu</a>
+      <a href="index.html" class="active">Hồ sơ</a>
+      <div class="sidebar-footer">Đối tác địa phương</div>
+    </aside>
+
+    <main class="content">
+      <div class="card">
+        <!-- Phần đầu hồ sơ: avatar + tên + trạng thái + nút thao tác -->
+        <div class="profile-head">
+          <div class="pf-avatar">🏞</div>
+          <div class="pf-info">
+            <h2 id="pf-ten-hien">...</h2>
+            <p class="pf-role">Đối tác địa phương</p>
+            <span class="badge success" id="pf-trang-thai">Đang hoạt động</span>
+          </div>
+          <div class="spacer"></div>
+          <div class="pf-actions">
+            <button class="btn btn-secondary" id="btn-sua" type="button">Sửa hồ sơ</button>
+            <button class="btn btn-danger" id="btn-doi-trang-thai" type="button">Tạm ngưng hoạt động</button>
+          </div>
+        </div>
+
+        <!-- Tab: Thông tin | Hỗ trợ | Giấy phép -->
+        <div class="tab-row" id="tab-row">
+          <button class="tab active" data-tab="thong-tin" type="button">Thông tin</button>
+          <button class="tab" data-tab="ho-tro" type="button">Hỗ trợ</button>
+          <button class="tab" data-tab="giay-phep" type="button">Giấy phép</button>
+        </div>
+
+        <!-- TAB THÔNG TIN: form hiển thị (khóa) / sửa hồ sơ -->
+        <div id="tab-thong-tin" class="tab-panel">
+          <form id="form-ho-so" class="form-grid" novalidate>
+            <div class="field"><label for="pf-ten">Tên</label><input id="pf-ten" disabled></div>
+            <div class="field"><label for="pf-loai">Loại đối tác</label><input id="pf-loai" disabled></div>
+            <div class="field"><label for="pf-sdt">Số điện thoại</label><input id="pf-sdt" disabled></div>
+            <div class="field"><label for="pf-email">Email</label><input id="pf-email" type="email" disabled></div>
+            <div class="field full"><label for="pf-dia-chi">Địa chỉ</label><input id="pf-dia-chi" disabled></div>
+            <div class="field full"><label for="pf-mo-ta">Mô tả</label><textarea id="pf-mo-ta" rows="2" disabled></textarea></div>
+            <div class="field"><label for="pf-ngay">Ngày hoạt động</label><input id="pf-ngay" disabled></div>
+            <div class="field"><label for="pf-gio">Khung giờ</label><input id="pf-gio" disabled></div>
+            <div class="field full"><label for="pf-mat-khau">Mật khẩu</label><input id="pf-mat-khau" type="password" value="********" disabled></div>
+            <div class="full save-row">
+              <a href="#" id="lnk-doi-mat-khau" class="link">Đổi mật khẩu?</a>
+              <button type="submit" class="btn btn-primary" id="btn-luu" hidden>Lưu hồ sơ</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TAB HỖ TRỢ -->
+        <div id="tab-ho-tro" class="tab-panel" hidden>
+          <div class="support-grid">
+            <div class="support-item">📞<div><b>Hotline</b><p>1900 6789 (8:00 – 20:00 hằng ngày)</p></div></div>
+            <div class="support-item">✉️<div><b>Email</b><p>hotro@tripweave.ai</p></div></div>
+            <div class="support-item">💬<div><b>Câu hỏi thường gặp</b><p>Cách thêm trải nghiệm? Quản lý đơn đặt? Rút doanh thu?</p></div></div>
+          </div>
+          <button class="btn btn-primary" id="btn-gui-yeu-cau" type="button">Gửi yêu cầu hỗ trợ</button>
+        </div>
+
+        <!-- TAB GIẤY PHÉP -->
+        <div id="tab-giay-phep" class="tab-panel" hidden>
+          <div class="paper">
+            <span class="paper-icon">📄</span>
+            <div><b>Giấy phép kinh doanh</b><p>Số 0123456789 – cấp ngày 12/03/2024</p></div>
+            <div class="spacer"></div>
+            <span class="badge success">Đã xác minh</span>
+          </div>
+          <div class="paper">
+            <span class="paper-icon">📄</span>
+            <div><b>Giấy phép hoạt động du lịch</b><p>Số DL-2024-0456 – cấp ngày 20/06/2024</p></div>
+            <div class="spacer"></div>
+            <span class="badge success">Đã xác minh</span>
+          </div>
+          <button class="btn btn-secondary" id="btn-tai-giay-phep" type="button">+ Tải lên giấy phép mới</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

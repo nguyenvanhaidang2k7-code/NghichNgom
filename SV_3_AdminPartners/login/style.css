@@ -1,0 +1,314 @@
+/* =====================================================
+   TRANG ĐĂNG NHẬP - TripWeave AI
+   Tông màu chủ đạo: tím Indigo (#6366f1), nền xám nhạt #f8fafc
+   ===================================================== */
+
+/* --- 1. BIẾN MÀU DÙNG CHUNG (design token) --- */
+:root {
+  --primary: #6366f1;        /* Tím indigo chủ đạo */
+  --primary-dark: #4f46e5;   /* Tím đậm khi hover */
+  --bg: #f8fafc;             /* Nền tổng thể xám nhạt */
+  --card: #ffffff;           /* Nền thẻ trắng */
+  --text: #0f172a;           /* Chữ chính */
+  --muted: #64748b;          /* Chữ phụ mờ */
+  --border: #e2e8f0;         /* Viền nhạt */
+  --danger: #dc2626;         /* Màu lỗi */
+  --shadow: 0 1px 2px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+
+/* --- 2. THẺ ĐĂNG NHẬP: 2 cột (brand | form) --- */
+.login-card {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  max-width: 860px; width: 100%;
+  background: var(--card);
+  border-radius: 24px;               /* Bo góc mềm mại */
+  box-shadow: var(--shadow);         /* Bóng đổ nhẹ */
+  overflow: hidden;
+}
+
+/* Cột trái giới thiệu thương hiệu */
+.login-brand {
+  background: linear-gradient(160deg, #eef2ff, #f8fafc 60%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; padding: 40px 24px; text-align: center;
+}
+.logo-art { font-size: 64px; }
+.login-brand h1 { color: #0f2a4a; font-size: 26px; }
+.login-brand p { color: var(--muted); font-size: 13px; }
+
+/* Cột phải: form */
+.login-form { padding: 48px 44px; display: flex; flex-direction: column; gap: 16px; }
+.login-form h2 { text-align: center; color: #0f2a4a; font-size: 22px; margin-bottom: 8px; }
+
+/* --- 3. Ô NHẬP LIỆU --- */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.field input {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 11px 14px; font-size: 13px; outline: none;
+}
+.field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
+
+/* Trạng thái lỗi của form */
+.form-error {
+  background: #fee2e2; color: var(--danger);
+  border-radius: 10px; padding: 10px 14px;
+  font-size: 12px; font-weight: 600;
+}
+
+/* --- 4. NÚT BẤM --- */
+.btn {
+  border: 0; border-radius: 10px; padding: 12px 18px;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn:disabled { opacity: .7; cursor: wait; transform: none; }
+
+.forgot { text-align: center; color: var(--primary); font-size: 12px; font-weight: 600; text-decoration: none; }
+.hint { color: var(--muted); font-size: 11px; text-align: center; }
+
+/* Spinner tròn xoay khi đang tải (trạng thái loading) */
+.spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid #fff; border-top-color: transparent;
+  border-radius: 50%; animation: spin .7s linear infinite;
+  vertical-align: -2px; margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- 5. TOAST THÔNG BÁO --- */
+#toast-box { position: fixed; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
+.toast {
+  min-width: 200px; border-radius: 12px; padding: 12px 16px;
+  color: #fff; font-size: 13px; font-weight: 600; box-shadow: var(--shadow);
+  animation: slide .25s ease;
+}
+.toast.success { background: #16a34a; }
+.toast.error { background: #dc2626; }
+.toast.info { background: #6366f1; }
+@keyframes slide { from { transform: translateX(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* --- 6. RESPONSIVE MOBILE --- */
+@media (max-width: 760px) {
+  .login-card { grid-template-columns: 1fr; }
+  .login-brand { padding: 28px; }
+  .login-form { padding: 32px 24px; }
+}
+
+/* --- 7. BỘ CHỌN VAI TRÒ ĐĂNG NHẬP (radio dạng thẻ - 4 vai trò) --- */
+.role-picker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.role-opt {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px 8px; cursor: pointer; text-align: center;
+  background: #fff; transition: all .2s;
+}
+.role-opt:hover { border-color: #c7d2fe; background: #f8faff; transform: translateY(-1px); }
+/* Ẩn nút radio thật (vẫn giữ để dùng bàn phím / trợ năng) */
+.role-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.role-ico { font-size: 22px; }
+.role-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.25; }
+.role-desc { font-size: 10px; color: var(--muted); line-height: 1.3; }
+/* Thẻ đang được chọn: viền tím + nền indigo nhạt (đồng bộ màu hệ thống) */
+.role-opt.active {
+  border-color: var(--primary); background: #eef2ff;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.15);
+}
+.role-opt.active .role-name { color: var(--primary-dark); }
+
+/* Mobile: xếp dọc 4 vai trò thành 1 cột dạng hàng ngang */
+@media (max-width: 760px) {
+  .role-picker { grid-template-columns: 1fr; }
+  .role-opt { flex-direction: row; justify-content: flex-start; gap: 10px; padding: 12px 14px; }
+  .role-desc { display: none; }
+}
+
+/* =====================================================
+   8. TAB CHUYỂN ĐỔI "ĐĂNG NHẬP / ĐĂNG KÝ"
+   (Đăng ký được GỘP CHUNG vào trang login, không tách thư mục)
+   ===================================================== */
+.login-panel { display: flex; flex-direction: column; min-width: 0; }
+
+/* Thanh tab dạng viên thuốc + con trượt trắng di chuyển mượt */
+.tabs {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr;
+  margin: 28px 44px 0; padding: 4px;
+  background: #eef2ff; border-radius: 999px;
+}
+.tab-ind {
+  position: absolute; top: 4px; left: 4px;
+  width: calc(50% - 4px); height: calc(100% - 8px);
+  background: #fff; border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(15,23,42,.16);
+  transition: transform .32s cubic-bezier(.4, 0, .2, 1);
+}
+.tabs[data-active="dangky"] .tab-ind { transform: translateX(100%); }
+.tab {
+  position: relative; z-index: 1;
+  border: 0; background: none; cursor: pointer;
+  padding: 11px 8px; border-radius: 999px;
+  font-family: inherit; font-size: 13.5px; font-weight: 700;
+  color: var(--muted); transition: color .25s;
+}
+.tab:hover { color: var(--primary-dark); }
+.tab.active { color: var(--primary-dark); }
+
+/* Các dòng giới thiệu ở cột trái: tự đổi theo tab đang mở */
+.brand-points {
+  list-style: none; margin-top: 24px;
+  display: flex; flex-direction: column; gap: 9px; text-align: left;
+}
+.brand-points li {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 12.5px; color: #334155; line-height: 1.5;
+}
+.brand-points li span { flex: 0 0 auto; }
+.login-card[data-mode="dangnhap"] .brand-points li[data-cho="dangky"],
+.login-card[data-mode="dangky"] .brand-points li[data-cho="dangnhap"] { display: none; }
+
+/* =====================================================
+   9. PANEL: chỉ hiện 1 form tại một thời điểm, vào mượt
+   ===================================================== */
+.login-form.panel { display: none; }
+.login-form.panel.active {
+  display: flex; flex-direction: column; gap: 16px;
+  animation: panel-vao .35s ease both;
+}
+@keyframes panel-vao {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+/* Vì đã có thanh tab phía trên nên giảm khoảng đệm trên của form */
+.login-panel .login-form { padding: 24px 44px 40px; }
+
+/* Dòng "Chưa có tài khoản? Đăng ký ngay" / "Đã có tài khoản? Đăng nhập ngay" */
+.switch-line { text-align: center; font-size: 12px; color: var(--muted); }
+.switch-line a { font-weight: 700; color: var(--primary); text-decoration: none; }
+.switch-line a:hover { text-decoration: underline; }
+.hint code { background: #f1f5f9; padding: 1px 5px; border-radius: 5px; font-size: 10.5px; }
+
+/* =====================================================
+   10. FORM ĐĂNG KÝ (nằm trong tab "Đăng ký")
+   ===================================================== */
+/* Dấu * báo trường bắt buộc */
+.field label i, .terms i { color: var(--danger); font-style: normal; }
+
+/* 2 ô trên cùng 1 hàng (họ tên + SĐT, khu vực + lĩnh vực) */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* Ô select dùng chung kiểu với ô input */
+.field select {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 11px 14px; font-size: 13px; outline: none;
+  font-family: inherit; color: var(--text); background: #fff; cursor: pointer;
+  width: 100%;
+}
+.field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
+
+/* Tô đỏ riêng ô nhập sai (trạng thái ERROR chi tiết) */
+.field input.loi, .field select.loi {
+  border-color: var(--danger); box-shadow: 0 0 0 3px rgba(220,38,38,.12);
+}
+
+/* Khối thông tin Đối tác: chỉ hiện khi chọn vai trò "Đối tác địa phương" */
+.partner-only { display: none; }
+.partner-only.hien { display: grid; animation: panel-vao .3s ease both; }
+
+/* Ô mật khẩu có nút hiện / ẩn */
+.pass-wrap { position: relative; display: flex; align-items: center; }
+.pass-wrap input { flex: 1; padding-right: 44px; }
+.pass-toggle {
+  position: absolute; right: 6px;
+  border: 0; background: none; cursor: pointer;
+  font-size: 15px; line-height: 1; padding: 7px 8px; border-radius: 8px;
+  color: var(--muted); transition: background .2s;
+}
+.pass-toggle:hover { background: #eef2ff; }
+
+/* Thanh đo ĐỘ MẠNH mật khẩu */
+.strength { height: 6px; border-radius: 99px; background: #e2e8f0; overflow: hidden; margin-top: 8px; }
+.strength-bar {
+  display: block; height: 100%; width: 0; border-radius: 99px;
+  background: var(--danger); transition: width .3s ease, background .3s ease;
+}
+.strength-txt { display: block; margin-top: 6px; font-size: 11px; color: var(--muted); }
+.strength-txt.manh-1 { color: var(--danger); font-weight: 700; }
+.strength-txt.manh-2 { color: #d97706; font-weight: 700; }
+.strength-txt.manh-3 { color: #16a34a; font-weight: 700; }
+
+/* Dòng tick điều khoản sử dụng */
+.terms {
+  display: flex; gap: 9px; align-items: flex-start;
+  font-size: 12px; color: var(--muted); line-height: 1.55; cursor: pointer;
+}
+.terms input { margin-top: 2px; width: 15px; height: 15px; accent-color: var(--primary); cursor: pointer; }
+.terms a { color: var(--primary); font-weight: 600; text-decoration: none; }
+.terms a:hover { text-decoration: underline; }
+.terms.loi { color: var(--danger); font-weight: 600; }
+
+/* =====================================================
+   11. MODAL "ĐĂNG KÝ THÀNH CÔNG" (trạng thái SUCCESS)
+   ===================================================== */
+.btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: #c7d2fe; background: #f8faff; }
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(15,23,42,.45);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal {
+  width: 100%; max-width: 420px; background: #fff;
+  border-radius: 20px; padding: 30px 28px; text-align: center;
+  box-shadow: var(--shadow);
+  transform: translateY(14px) scale(.97); transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: none; }
+.modal-ico {
+  width: 62px; height: 62px; margin: 0 auto 14px; border-radius: 50%;
+  background: #eef2ff; display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+}
+.modal h3 { color: #0f2a4a; font-size: 20px; margin-bottom: 10px; }
+.modal p { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 22px; }
+.modal p b { color: var(--primary-dark); }
+.modal-actions { display: flex; gap: 10px; }
+.modal-actions .btn { flex: 1; }
+
+/* =====================================================
+   12. RESPONSIVE BỔ SUNG CHO TAB + FORM ĐĂNG KÝ
+   ===================================================== */
+@media (max-width: 760px) {
+  .tabs { margin: 20px 24px 0; }
+  .login-panel .login-form { padding: 24px 24px 34px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .brand-points { display: none; }
+  .modal-actions { flex-direction: column-reverse; }
+}
+@media (max-width: 400px) {
+  .role-picker { grid-template-columns: 1fr; }
+}
+
+/* Tôn trọng cài đặt "giảm chuyển động" của hệ điều hành */
+@media (prefers-reduced-motion: reduce) {
+  .tab-ind, .login-form.panel.active, .partner-only.hien, .strength-bar { animation: none; transition: none; }
+}
+

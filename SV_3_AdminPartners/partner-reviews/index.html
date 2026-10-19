@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đánh giá - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../partner-overview/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm địa điểm, thành phố, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Đ</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: ĐỐI TÁC ĐỊA PHƯƠNG ========== -->
+    <aside class="sidebar">
+      <a href="../partner-overview/index.html">Tổng quan</a>
+      <a href="../partner-activity-management/index.html">Trải nghiệm</a>
+      <a href="../partner-orders/index.html">Đơn đặt</a>
+      <a href="index.html" class="active">Đánh giá</a>
+      <a href="../partner-revenue/index.html">Doanh thu</a>
+      <a href="../partner-profile/index.html">Hồ sơ</a>
+      <div class="sidebar-footer">Đối tác địa phương</div>
+    </aside>
+
+    <main class="content">
+      <!-- Thanh công cụ: tìm theo tên khách + lọc chưa phản hồi -->
+      <div class="card">
+        <div class="toolbar">
+          <div class="field grow">
+            <label for="search-input">Tìm đánh giá</label>
+            <div class="search-box">🔍<input id="search-input" placeholder="Tìm theo tên khách..."></div>
+          </div>
+          <div class="chip-row" id="chip-row">
+            <button class="chip active" data-loc="tatca">Tất cả</button>
+            <button class="chip" data-loc="chuaphanhoi">Chưa phản hồi</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danh sách đánh giá: JS render -->
+      <div id="danh-sach"></div>
+    </main>
+  </div>
+
+  <!-- ========== MODAL XEM CHI TIẾT ĐÁNH GIÁ (READ) ========== -->
+  <div class="modal-overlay" id="modal-xem">
+    <div class="modal">
+      <h3>Đánh giá chi tiết</h3>
+      <dl class="detail">
+        <dt>Khách hàng</dt><dd id="rv-ten"></dd>
+        <dt>Trải nghiệm</dt><dd id="rv-tn"></dd>
+        <dt>Ngày gửi</dt><dd id="rv-ngay"></dd>
+        <dt>Điểm</dt><dd id="rv-sao"></dd>
+        <dt>Nội dung</dt><dd id="rv-noi-dung"></dd>
+        <dt>Phản hồi</dt><dd id="rv-phan-hoi"></dd>
+      </dl>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="rv-an" type="button">Ẩn đánh giá</button>
+        <button class="btn btn-ghost" id="rv-dong" type="button">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL PHẢN HỒI ĐÁNH GIÁ (UPDATE) ========== -->
+  <div class="modal-overlay" id="modal-phan-hoi">
+    <div class="modal modal-sm">
+      <h3>Phản hồi đánh giá</h3>
+      <form id="form-phan-hoi" class="form-stack" novalidate>
+        <div class="field">
+          <label for="ph-noi-dung">Nội dung phản hồi của đối tác</label>
+          <textarea id="ph-noi-dung" rows="3" placeholder="Cảm ơn bạn đã đánh giá..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="ph-huy">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu phản hồi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== MODAL XÁC NHẬN (trước khi ẩn đánh giá) ========== -->
+  <div class="modal-overlay" id="modal-xac-nhan">
+    <div class="modal modal-sm">
+      <h3>Xác nhận thao tác</h3>
+      <p class="xn-text" id="xn-thong-bao"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="xn-huy" type="button">Hủy</button>
+        <button class="btn btn-danger" id="xn-dong-y" type="button">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

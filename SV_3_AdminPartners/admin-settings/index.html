@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cài đặt hệ thống - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../admin-dashboard/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm người dùng, đối tác, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Q</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: QUẢN TRỊ HỆ THỐNG ========== -->
+    <aside class="sidebar">
+      <a href="../admin-dashboard/index.html">Tổng quan</a>
+      <a href="../admin-user-management/index.html">Quản trị người dùng</a>
+      <a href="../admin-content/index.html">Quản trị nội dung</a>
+      <a href="../admin-orders/index.html">Quản trị đơn đặt</a>
+      <a href="../admin-partners/index.html">Đối tác địa phương</a>
+      <a href="../admin-revenue/index.html">Quản trị doanh thu</a>
+      <a href="index.html" class="active">Cài đặt hệ thống</a>
+      <div class="sidebar-footer">Quản trị hệ thống</div>
+    </aside>
+
+    <main class="content">
+      <div class="grid-2">
+        <!-- ========== CÀI ĐẶT CHUNG + BẢO MẬT ========== -->
+        <div class="card">
+          <h3>Cài đặt hệ thống</h3>
+          <form id="form-cau-hinh" class="form-stack" novalidate>
+            <div class="field">
+              <label for="set-hien-thi">Cơ chế hiển thị kết quả tìm kiếm</label>
+              <select id="set-hien-thi">
+                <option>Ưu tiên đối tác</option>
+                <option>Đánh giá cao nhất</option>
+                <option>Giá thấp nhất</option>
+                <option>Mới nhất</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="set-phien">Thời gian hết phiên đăng nhập</label>
+              <select id="set-phien">
+                <option value="15">15 phút</option>
+                <option value="30">30 phút</option>
+                <option value="60">60 phút</option>
+              </select>
+            </div>
+            <!-- Công tắc bật/tắt xác thực 2 lớp -->
+            <label class="switch-row">
+              <span class="switch">
+                <input type="checkbox" id="set-2fa">
+                <span class="slider"></span>
+              </span>
+              <div>
+                <b>Xác thực 2 lớp (2FA) cho quản trị</b>
+                <p class="hint">Yêu cầu mã OTP khi đăng nhập bằng tài khoản quản trị.</p>
+              </div>
+            </label>
+            <button type="submit" class="btn btn-primary">Lưu cấu hình</button>
+          </form>
+        </div>
+
+        <!-- ========== CÀI ĐẶT THÔNG BÁO ========== -->
+        <div class="card">
+          <h3>Cài đặt thông báo</h3>
+          <form id="form-thong-bao" class="form-stack" novalidate>
+            <label class="check-row"><input type="checkbox" id="tb-email"> Email thông báo đơn mới</label>
+            <label class="check-row"><input type="checkbox" id="tb-push"> Push notification cho quản trị</label>
+            <label class="check-row"><input type="checkbox" id="tb-tuan"> Báo cáo tổng hợp hằng tuần</label>
+            <button type="submit" class="btn btn-primary">Lưu cài đặt thông báo</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ========== QUẢN LÝ DANH MỤC (CRUD) ========== -->
+      <div class="card">
+        <h3>Quản lý danh mục hoạt động</h3>
+        <div id="danh-muc-list" class="dm-list"></div>
+        <div class="dm-add">
+          <input id="dm-ten" placeholder="Tên danh mục mới...">
+          <button class="btn btn-primary" id="btn-them-dm" type="button">+ Thêm danh mục</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== MODAL XÁC NHẬN (xóa danh mục) ========== -->
+  <div class="modal-overlay" id="modal-xac-nhan">
+    <div class="modal modal-sm">
+      <h3>Xác nhận thao tác</h3>
+      <p class="xn-text" id="xn-thong-bao"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="xn-huy" type="button">Hủy</button>
+        <button class="btn btn-danger" id="xn-dong-y" type="button">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

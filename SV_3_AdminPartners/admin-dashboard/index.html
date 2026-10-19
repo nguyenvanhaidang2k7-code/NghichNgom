@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng quan hệ thống - TripWeave AI (Quản trị)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm người dùng, đối tác, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Q</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: QUẢN TRỊ HỆ THỐNG ========== -->
+    <aside class="sidebar">
+      <a href="index.html" class="active">Tổng quan</a>
+      <a href="../admin-user-management/index.html">Quản trị người dùng</a>
+      <a href="../admin-content/index.html">Quản trị nội dung</a>
+      <a href="../admin-orders/index.html">Quản trị đơn đặt</a>
+      <a href="../admin-partners/index.html">Đối tác địa phương</a>
+      <a href="../admin-revenue/index.html">Quản trị doanh thu</a>
+      <a href="../admin-settings/index.html">Cài đặt hệ thống</a>
+      <div class="sidebar-footer">Quản trị hệ thống</div>
+    </aside>
+
+    <main class="content">
+      <!-- 4 THẺ THỐNG KÊ NGƯỜI DÙNG (JS điền số) -->
+      <section class="stats">
+        <div class="card">
+          <p class="stat-label">Tổng người dùng</p>
+          <p class="stat-value primary" id="stat-tong">...</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Đối tác</p>
+          <p class="stat-value success" id="stat-doi-tac">...</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Người dùng</p>
+          <p class="stat-value info" id="stat-nguoi-dung">...</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Khách du lịch</p>
+          <p class="stat-value warning" id="stat-khach">...</p>
+        </div>
+      </section>
+
+      <!-- 2 BIỂU ĐỒ: tăng trưởng người dùng + doanh thu hệ thống -->
+      <div class="grid-2">
+        <div class="card">
+          <h3>Tăng trưởng người dùng</h3>
+          <div class="chart" id="chart-nguoi-dung"></div>
+        </div>
+        <div class="card">
+          <h3>Doanh thu hệ thống (tỉ ₫)</h3>
+          <div class="chart" id="chart-doanh-thu"></div>
+        </div>
+      </div>
+
+      <!-- TOP NHÀ CUNG CẤP theo tăng trưởng -->
+      <div class="card">
+        <h3>Top nhà cung cấp</h3>
+        <div id="top-nha-cung-cap" class="top-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

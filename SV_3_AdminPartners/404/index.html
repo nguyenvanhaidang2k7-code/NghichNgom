@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Không tìm thấy trang | TripWeave AI</title>
+  <meta name="description" content="Trang bạn tìm không tồn tại trên hệ thống TripWeave AI. Quay về trang đăng nhập hoặc chọn nhanh khu vực bạn cần.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== TRANG LỖI 404 - TripWeave AI ==========
+       Minh hoạ (la bàn + vali đi lạc) được VẼ BẰNG CSS THUẦN,
+       không dùng file ảnh, đồng bộ tông màu tím indigo #6366f1
+       của toàn hệ thống. Có 2 nút chính: về TRANG ĐĂNG NHẬP
+       và QUAY LẠI TRANG TRƯỚC, kèm 4 lối tắt tới các khu vực demo. -->
+  <main class="err-wrap">
+    <div class="err-card">
+
+      <!-- ---------- 1) HÌNH MINH HOẠ (CSS thuần) ---------- -->
+      <div class="art" aria-hidden="true">
+        <!-- Số 404: chữ số 0 được thay bằng chiếc la bàn đang quay -->
+        <div class="code">
+          <span class="digit">4</span>
+          <span class="compass">
+            <span class="ring"></span>
+            <span class="tick t1"></span><span class="tick t2"></span>
+            <span class="tick t3"></span><span class="tick t4"></span>
+            <span class="needle"></span>
+            <span class="pin"></span>
+          </span>
+          <span class="digit">4</span>
+        </div>
+        <!-- Đường nét đứt + chiếc vali "đi lạc" qua lại -->
+        <div class="trail"><span class="bag">🧳</span></div>
+      </div>
+
+      <!-- ---------- 2) THÔNG ĐIỆP LỖI ---------- -->
+      <p class="eyebrow">Lỗi 404 &middot; Không tìm thấy trang</p>
+      <h1>Chuyến đi này chưa được mở trên bản đồ.</h1>
+      <p class="desc">
+        Đường dẫn <code id="duong-dan">đang kiểm tra&hellip;</code> không tồn tại trong hệ thống
+        <b>TripWeave AI</b>. Trang có thể đã bị xoá, đổi tên, hoặc địa chỉ bị gõ sai.
+      </p>
+
+      <!-- ---------- 3) HAI NÚT HÀNH ĐỘNG CHÍNH ---------- -->
+      <div class="actions">
+        <a class="btn btn-primary" href="../login/index.html">
+          <span class="btn-ico">🏠</span> Về trang Đăng nhập
+        </a>
+        <button class="btn btn-secondary" id="btn-quay-lai" type="button">
+          <span class="btn-ico">↩</span> Quay lại trang trước
+        </button>
+      </div>
+
+      <!-- ---------- 4) LỐI TẮT TỚI CÁC KHU VỰC DEMO ---------- -->
+      <div class="quick">
+        <p class="quick-title">Hoặc đi thẳng tới khu vực bạn cần:</p>
+        <div class="quick-grid">
+          <a class="quick-item" href="../login/index.html#dang-ky">
+            <span class="q-ico">📝</span>
+            <span class="q-txt"><b>Đăng ký tài khoản</b><small>Tạo tài khoản mới (tab Đăng ký)</small></span>
+          </a>
+          <a class="quick-item" href="../admin-dashboard/index.html">
+            <span class="q-ico">🛡️</span>
+            <span class="q-txt"><b>Khu quản trị</b><small>Tổng quan hệ thống TripWeave AI</small></span>
+          </a>
+          <a class="quick-item" href="../partner-overview/index.html">
+            <span class="q-ico">🏪</span>
+            <span class="q-txt"><b>Khu đối tác</b><small>Trang quản lý của đối tác địa phương</small></span>
+          </a>
+          <a class="quick-item" href="../admin-user-management/index.html">
+            <span class="q-ico">👥</span>
+            <span class="q-txt"><b>Quản trị người dùng</b><small>Danh sách tài khoản đã đăng ký</small></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ---------- 5) HỖ TRỢ: sao chép đường dẫn lỗi + phím tắt ---------- -->
+      <div class="support">
+        <span>Vẫn không vào được?</span>
+        <button class="link-btn" id="btn-sao-chep" type="button">Sao chép đường dẫn lỗi</button>
+        <span>để gửi cho bộ phận hỗ trợ.</span>
+      </div>
+      <p class="shortcut">Phím tắt: <kbd>L</kbd> đăng nhập &middot; <kbd>R</kbd> đăng ký &middot; <kbd>B</kbd> quay lại trang trước</p>
+    </div>
+
+    <footer class="err-foot">
+      TripWeave AI &mdash; Nền tảng du lịch thông minh theo sở thích &middot; Phiên bản demo (HTML/CSS/JS thuần)
+    </footer>
+  </main>
+
+  <!-- Khu vực hiển thị toast (thông báo thành công / lỗi) - giống các trang khác -->
+  <div id="toast-box"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trải nghiệm - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../partner-overview/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm địa điểm, thành phố, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Đ</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: ĐỐI TÁC ĐỊA PHƯƠNG ========== -->
+    <aside class="sidebar">
+      <a href="../partner-overview/index.html">Tổng quan</a>
+      <a href="index.html" class="active">Trải nghiệm</a>
+      <a href="../partner-orders/index.html">Đơn đặt</a>
+      <a href="../partner-reviews/index.html">Đánh giá</a>
+      <a href="../partner-revenue/index.html">Doanh thu</a>
+      <a href="../partner-profile/index.html">Hồ sơ</a>
+      <div class="sidebar-footer">Đối tác địa phương</div>
+    </aside>
+
+    <main class="content">
+      <!-- ========== KHUNG NHÌN 1: DANH SÁCH TRẢI NGHIỆM ========== -->
+      <section id="view-danh-sach">
+        <!-- Thanh công cụ: ô tìm kiếm + chip lọc + nút thêm mới -->
+        <div class="card toolbar-card">
+          <div class="toolbar">
+            <div class="field grow">
+              <label for="search-input">Tìm trải nghiệm</label>
+              <div class="search-box">🔍<input id="search-input" placeholder="Tìm kiếm..."></div>
+            </div>
+            <div class="chip-row" id="chip-row">
+              <button class="chip active" data-loc="tatca">Tất cả</button>
+              <button class="chip" data-loc="hoatdong">Đang hoạt động</button>
+              <button class="chip" data-loc="tamngung">Tạm ngưng</button>
+            </div>
+            <button class="btn btn-primary" id="btn-them">+ Thêm trải nghiệm</button>
+          </div>
+        </div>
+
+        <!-- Khu vực danh sách: JS render (skeleton / hàng / rỗng / lỗi) -->
+        <div id="danh-sach"></div>
+      </section>
+
+      <!-- ========== KHUNG NHÌN 2: FORM QUẢN LÝ TRẢI NGHIỆM ========== -->
+      <section id="view-quan-ly" hidden>
+        <div class="card">
+          <div class="view-head">
+            <h2>Thông tin trải nghiệm</h2>
+            <button class="btn btn-ghost" id="btn-quay-lai" type="button">← Quay lại danh sách</button>
+          </div>
+          <form id="form-quan-ly" class="form-grid" novalidate>
+            <div class="field"><label for="ql-ten">Tên trải nghiệm</label><input id="ql-ten"></div>
+            <div class="field"><label for="ql-loai">Loại</label>
+              <select id="ql-loai">
+                <option>Văn hóa</option><option>Thiên nhiên</option><option>Ẩm thực</option><option>Nghỉ dưỡng</option>
+              </select>
+            </div>
+            <div class="field"><label for="ql-gia">Giá (₫)</label><input id="ql-gia" type="number" min="0"></div>
+            <div class="field"><label for="ql-suc-chua">Sức chứa</label><input id="ql-suc-chua" type="number" min="1"></div>
+            <div class="field full"><label for="ql-mo-ta">Mô tả</label><textarea id="ql-mo-ta" rows="2"></textarea></div>
+            <div class="field"><label for="ql-ngay">Ngày hoạt động</label><input id="ql-ngay"></div>
+            <div class="field"><label for="ql-gio">Khung giờ</label><input id="ql-gio"></div>
+            <div class="full manage-actions">
+              <button type="submit" class="btn btn-primary">Lưu trải nghiệm</button>
+              <button type="button" class="btn btn-secondary" id="btn-doi-trang-thai">Tạm ngưng hoạt động</button>
+              <button type="button" class="btn btn-danger" id="btn-xoa">Xóa trải nghiệm</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========== MODAL THÊM / SỬA TRẢI NGHIỆM (CRUD) ========== -->
+  <div class="modal-overlay" id="modal-form">
+    <div class="modal">
+      <h3 id="modal-form-title">Thêm trải nghiệm</h3>
+      <form id="form-modal" class="form-grid" novalidate>
+        <div class="field"><label for="md-ten">Tên trải nghiệm</label><input id="md-ten"></div>
+        <div class="field"><label for="md-loai">Loại</label>
+          <select id="md-loai">
+            <option>Văn hóa</option><option>Thiên nhiên</option><option>Ẩm thực</option><option>Nghỉ dưỡng</option>
+          </select>
+        </div>
+        <div class="field"><label for="md-gia">Giá (₫/người)</label><input id="md-gia" type="number" min="0"></div>
+        <div class="field"><label for="md-suc-chua">Sức chứa (người)</label><input id="md-suc-chua" type="number" min="1"></div>
+        <div class="field full"><label for="md-mo-ta">Mô tả</label><textarea id="md-mo-ta" rows="2" placeholder="Nhập mô tả hoặc bấm nút AI bên dưới..."></textarea></div>
+        <div class="field"><label for="md-ngay">Ngày hoạt động</label><input id="md-ngay" placeholder="Thứ 2 – Chủ nhật"></div>
+        <div class="field"><label for="md-gio">Khung giờ</label><input id="md-gio" placeholder="08:00 – 18:00"></div>
+
+        <!-- KHỐI AI MÔ PHỎNG: Nhập -> Loading -> Kết quả -> Giải thích -> Hành động -->
+        <div class="full ai-block">
+          <button type="button" class="btn btn-secondary" id="btn-ai">✨ AI gợi ý mô tả</button>
+          <p class="ai-loading" id="ai-loading" hidden><span class="spinner"></span>AI đang phân tích sở thích du khách...</p>
+          <div class="ai-result" id="ai-result" hidden>
+            <p class="ai-title">🤖 Đề xuất mô tả của AI</p>
+            <p class="ai-text" id="ai-text"></p>
+            <p class="ai-why"><b>Vì sao AI đề xuất?</b> <span id="ai-why"></span></p>
+            <div class="ai-actions">
+              <button type="button" class="btn btn-primary" id="ai-accept">Chấp nhận</button>
+              <button type="button" class="btn btn-secondary" id="ai-regen">Tạo lại</button>
+              <button type="button" class="btn btn-danger" id="ai-reject">Từ chối</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="full modal-actions">
+          <button type="button" class="btn btn-ghost" id="md-huy">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== MODAL XÁC NHẬN (dùng cho thao tác Xóa) ========== -->
+  <div class="modal-overlay" id="modal-xac-nhan">
+    <div class="modal modal-sm">
+      <h3>Xác nhận thao tác</h3>
+      <p class="xn-text" id="xn-thong-bao"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="xn-huy" type="button">Hủy</button>
+        <button class="btn btn-danger" id="xn-dong-y" type="button">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>
+

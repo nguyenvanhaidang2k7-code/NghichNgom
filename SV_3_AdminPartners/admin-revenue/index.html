@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản trị doanh thu - TripWeave AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ========== THANH HEADER CHUNG ========== -->
+  <header class="topbar">
+    <a class="brand" href="../admin-dashboard/index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0f2a4a" stroke-width="2"><path d="M12 4 21 19 H3 Z"/></svg>
+      TripWeave AI
+    </a>
+    <div class="topbar-search">🔍<input id="global-search" placeholder="Tìm kiếm người dùng, đối tác, hoạt động..."></div>
+    <button class="icon-btn" id="bell-btn" title="Thông báo">🔔</button>
+    <button class="avatar" id="avatar-btn" title="Tài khoản">Q</button>
+  </header>
+
+  <div class="layout">
+    <!-- ========== SIDEBAR VAI TRÒ: QUẢN TRỊ HỆ THỐNG ========== -->
+    <aside class="sidebar">
+      <a href="../admin-dashboard/index.html">Tổng quan</a>
+      <a href="../admin-user-management/index.html">Quản trị người dùng</a>
+      <a href="../admin-content/index.html">Quản trị nội dung</a>
+      <a href="../admin-orders/index.html">Quản trị đơn đặt</a>
+      <a href="../admin-partners/index.html">Đối tác địa phương</a>
+      <a href="index.html" class="active">Quản trị doanh thu</a>
+      <a href="../admin-settings/index.html">Cài đặt hệ thống</a>
+      <div class="sidebar-footer">Quản trị hệ thống</div>
+    </aside>
+
+    <main class="content">
+      <!-- 4 THẺ THỐNG KÊ DOANH THU HỆ THỐNG (JS điền số) -->
+      <section class="stats">
+        <div class="card">
+          <p class="stat-label">Doanh thu hệ thống</p>
+          <p class="stat-value primary" id="stat-doanh-thu">...</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Đơn hoàn thành</p>
+          <p class="stat-value success" id="stat-don">...</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Đánh giá TB</p>
+          <p class="stat-value info" id="stat-sao">...</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Tăng trưởng</p>
+          <p class="stat-value warning" id="stat-tang">...</p>
+          <p class="stat-sub">so với tháng trước</p>
+        </div>
+      </section>
+
+      <!-- 2 BIỂU ĐỒ CỘT: người dùng + doanh thu theo tháng -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h3>Tăng trưởng người dùng</h3>
+            <button class="btn btn-secondary" id="btn-xuat-bao-cao" type="button">Xuất báo cáo</button>
+          </div>
+          <div class="chart" id="chart-nguoi-dung"></div>
+        </div>
+        <div class="card">
+          <h3>Doanh thu theo tháng (triệu ₫)</h3>
+          <div class="chart" id="chart-doanh-thu"></div>
+        </div>
+      </div>
+
+      <!-- TOP DỊCH VỤ THEO TỈ TRỌNG DOANH THU -->
+      <div class="card">
+        <h3>Top dịch vụ</h3>
+        <div id="top-dich-vu" class="top-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-box"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Itinerary – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="traveler.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="traveler" data-page="traveler-ai-itinerary">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6">
+      <div class="fade-up">
+        <h1 class="text-2xl font-bold text-slate-900"><i class="fa-solid fa-wand-magic-sparkles text-violet-500 mr-2"></i>AI Itinerary</h1>
+        <p class="text-sm text-slate-500 mt-0.5">Chọn sở thích và ngân sách – AI sẽ dệt nên lịch trình 5 ngày dành riêng cho bạn.</p>
+      </div>
+      <div class="mt-5 grid lg:grid-cols-3 gap-5 items-start">
+        <!-- Form -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-5 fade-up lg:sticky lg:top-20">
+          <h2 class="font-bold text-slate-900"><i class="fa-solid fa-sliders text-blue-500 mr-2"></i>Sở thích của bạn</h2>
+          <form id="ai-form" class="mt-4 space-y-4">
+            <div>
+              <label for="ai-destination" class="block text-sm font-medium text-slate-700 mb-1">Điểm đến mong muốn</label>
+              <select id="ai-destination" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:border-violet-500 transition"></select>
+            </div>
+            <div>
+              <span class="block text-sm font-medium text-slate-700 mb-2">Phong cách chuyến đi</span>
+              <div id="ai-interests" class="grid grid-cols-2 gap-2"></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-medium text-slate-700 mb-1"><label for="ai-budget">Ngân sách</label><span id="ai-budget-label" class="text-violet-600 font-bold">8.000.000đ</span></div>
+              <input id="ai-budget" type="range" min="1000000" max="15000000" step="500000" value="8000000" class="tw-range">
+            </div>
+            <div>
+              <label for="ai-pace" class="block text-sm font-medium text-slate-700 mb-1">Nhịp độ</label>
+              <select id="ai-pace" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:border-violet-500 transition">
+                <option value="relax">Thư thả – ít hoạt động, nhiều nghỉ ngơi</option>
+                <option value="balanced" selected>Cân bằng – vừa khám phá vừa nghỉ</option>
+                <option value="active">Năng động – tối đa trải nghiệm</option>
+              </select>
+            </div>
+            <div>
+              <label for="ai-note" class="block text-sm font-medium text-slate-700 mb-1">Ghi chú thêm (không bắt buộc)</label>
+              <textarea id="ai-note" rows="2" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition resize-none" placeholder="VD: đi cùng gia đình có trẻ nhỏ, ăn chay..."></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 rounded-xl text-white text-sm font-bold bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 shadow-lg transition"><i class="fa-solid fa-bolt mr-1.5"></i>Tạo lịch trình AI (5 ngày)</button>
+            <p class="text-[11px] text-slate-400 text-center"><i class="fa-solid fa-circle-info mr-1"></i>Kết quả có thể lưu vào "Chuyến đi" và gửi hướng dẫn viên bản địa review.</p>
+          </form>
+        </section>
+        <!-- Result -->
+        <section class="lg:col-span-2 space-y-4">
+          <div id="ai-empty" class="bg-white rounded-2xl border-2 border-dashed border-slate-200 p-12 text-center fade-up">
+            <span class="ph-img ph-violet w-20 h-20 mx-auto rounded-2xl text-4xl">🪄</span>
+            <h3 class="mt-4 font-bold text-slate-800">Chưa có lịch trình nào</h3>
+            <p class="mt-1 text-sm text-slate-500 max-w-sm mx-auto">Điền sở thích bên trái và nhấn "Tạo lịch trình AI". Trợ lý sẽ đề xuất địa điểm, hoạt động và nhịp độ phù hợp ngân sách của bạn.</p>
+          </div>
+          <div id="ai-loading" class="hidden bg-white rounded-2xl border border-slate-200 p-8 text-center">
+            <span class="w-14 h-14 mx-auto rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center text-2xl"><i class="fa-solid fa-wand-magic-sparkles fa-beat"></i></span>
+            <p id="ai-loading-text" class="mt-4 text-sm font-semibold text-slate-700">AI đang phân tích sở thích của bạn...</p>
+            <div class="progress-track mt-3 max-w-sm mx-auto"><div id="ai-progress" class="progress-fill" style="width:8%"></div></div>
+          </div>
+          <div id="ai-result" class="hidden space-y-4">
+            <div class="bg-slate-900 text-white rounded-2xl p-5 relative overflow-hidden">
+              <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-violet-500/20"></div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-violet-300 relative"><i class="fa-solid fa-robot mr-1"></i>Đề xuất bởi TripWeave AI</p>
+              <h2 id="ai-title" class="mt-1 text-xl font-bold relative"></h2>
+              <p id="ai-meta" class="mt-1 text-sm text-slate-300 relative"></p>
+            </div>
+            <div id="ai-timeline" class="space-y-3"></div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-wrap gap-2">
+              <button type="button" id="ai-regenerate" class="px-4 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition"><i class="fa-solid fa-rotate mr-1.5"></i>Tạo lại</button>
+              <button type="button" id="ai-save" class="px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-floppy-disk mr-1.5"></i>Lưu vào chuyến đi</button>
+              <button type="button" id="ai-submit" class="px-4 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-paper-plane mr-1.5"></i>Lưu &amp; gửi HDV review</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white mt-6">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="traveler.js"></script>
+</body>
+</html>

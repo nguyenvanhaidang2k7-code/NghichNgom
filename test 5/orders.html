@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đơn đặt | TripWeave AI</title><link rel="stylesheet" href="assets/css/common.css"><link rel="stylesheet" href="assets/css/partner.css">
+</head>
+<body data-role="partner" data-page="orders">
+<div data-page-content>
+  <div class="toolbar card">
+    <label class="field search-field" for="order-search">Tìm đơn đặt
+      <input class="input" id="order-search" type="search" placeholder="⌕ Tên khách hàng...">
+      </label>
+      <div class="tabs" aria-label="Lọc trạng thái đơn">
+        <button class="tab active" type="button" data-order-filter="Tất cả">Tất cả</button>
+        <button class="tab" type="button" data-order-filter="Chờ xác nhận">Chờ xác nhận</button>
+        <button class="tab" type="button" data-order-filter="Đã xác nhận">Đã xác nhận</button>
+        <button class="tab" type="button" data-order-filter="Đã hoàn thành">Hoàn thành</button>
+      </div>
+    </div>
+    <section id="order-list" class="list" aria-live="polite"></section>
+  </div>
+  <script src="assets/js/app.js"></script><script src="assets/js/partner.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Trải nghiệm - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <!-- Same Sidebar & Topbar as usual -->
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Thêm Trải nghiệm Dịch vụ</h1>
+                <form class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tên dịch vụ / Trải nghiệm</label>
+                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Giá mỗi khách (VNĐ)</label>
+                            <input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Sức chứa tối đa</label>
+                            <input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none" placeholder="VD: 20 người">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mô tả dịch vụ</label>
+                        <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none h-24 resize-none"></textarea>
+                    </div>
+                    <div class="flex gap-3 pt-4">
+                        <button type="submit" class="px-6 py-2 bg-accent hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition">Gửi phê duyệt</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

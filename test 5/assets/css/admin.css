@@ -1,0 +1,22 @@
+.admin-chart-layout { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(190px, .8fr); gap: 16px; }
+.admin-rate { display: grid; align-content: start; gap: 20px; }
+.rate-number { margin-top: 14px; font-size: 17px; font-weight: 750; }
+.approved-rate { color: var(--green); }
+.pending-rate { color: var(--orange); }
+.rejected-rate { color: var(--red); }
+.admin-chart-heading { margin-left: 10px; }
+.admin-content-row { grid-template-columns: 96px minmax(150px, 1fr) minmax(106px, .55fr) auto; min-height: 87px; }
+.category-list .list-row { grid-template-columns: minmax(150px, 1fr) minmax(100px, .8fr) auto; }
+.admin-content-row .actions { justify-content: flex-start; }
+.admin-checklist { min-height: 90px; }
+.settings-list { display: grid; gap: 12px; }
+.settings-checklist { margin-top: 24px; min-height: 88px; }
+
+@media (max-width: 760px) {
+  .admin-chart-layout { grid-template-columns: 1fr; }
+  .admin-rate { grid-template-columns: 1fr 1fr; }
+  .admin-content-row, .category-list .list-row { grid-template-columns: 1fr auto; }
+  .admin-content-row > :nth-child(2) { grid-column: 1; }
+  .admin-content-row > :nth-child(3) { grid-column: 2; grid-row: 1; }
+  .admin-content-row .actions { grid-column: 1 / -1; }
+}

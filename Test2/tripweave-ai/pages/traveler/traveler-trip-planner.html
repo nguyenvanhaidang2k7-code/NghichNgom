@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyến đi của tôi – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="traveler.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="traveler" data-page="traveler-trip-planner">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6 space-y-6">
+      <div class="flex items-center justify-between flex-wrap gap-3 fade-up">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Chuyến đi của tôi</h1>
+          <p class="text-sm text-slate-500 mt-0.5">Quản lý, chỉnh sửa và gửi lịch trình cho hướng dẫn viên review.</p>
+        </div>
+        <button type="button" id="btn-new-trip" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-md transition"><i class="fa-solid fa-plus mr-1.5"></i>Tạo chuyến đi mới</button>
+      </div>
+      <!-- Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-up">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg"><i class="fa-solid fa-suitcase-rolling"></i></span><div><p class="text-xl font-bold text-slate-900" id="st-total">0</p><p class="text-xs text-slate-500">Tổng chuyến đi</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-hourglass-half"></i></span><div><p class="text-xl font-bold text-slate-900" id="st-pending">0</p><p class="text-xs text-slate-500">Chờ review</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-circle-check"></i></span><div><p class="text-xl font-bold text-slate-900" id="st-approved">0</p><p class="text-xs text-slate-500">Đã duyệt</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center text-lg"><i class="fa-solid fa-wand-magic-sparkles"></i></span><div><p class="text-xl font-bold text-slate-900" id="st-budget">0đ</p><p class="text-xs text-slate-500">Tổng ngân sách</p></div></div>
+      </div>
+      <!-- Tabs -->
+      <div class="flex gap-1 bg-white border border-slate-200 rounded-xl p-1 w-fit fade-up" id="status-tabs">
+        <button type="button" data-tab="Tất cả" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white transition">Tất cả</button>
+        <button type="button" data-tab="Saved" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 transition">Bản nháp</button>
+        <button type="button" data-tab="Chờ review" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 transition">Chờ review</button>
+        <button type="button" data-tab="Approved" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 transition">Đã duyệt</button>
+        <button type="button" data-tab="Rejected" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 transition">Bị từ chối</button>
+      </div>
+      <!-- Trips -->
+      <div id="trips-list" class="space-y-4"></div>
+      <p id="trips-empty" class="hidden text-center text-sm text-slate-400 py-12"><i class="fa-regular fa-map mr-1"></i>Chưa có chuyến nào ở mục này. Nhấn "Tạo chuyến đi mới" hoặc dùng AI Itinerary.</p>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <!-- Modal: tạo/chỉnh sửa chuyến đi -->
+  <div id="modal-trip" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-trip"></div>
+    <div class="tw-modal-panel w-full max-w-2xl bg-white rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between p-5 border-b border-slate-100">
+        <h3 id="trip-modal-title" class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-route text-blue-500 mr-2"></i>Tạo chuyến đi mới</h3>
+        <button type="button" data-close-modal="modal-trip" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="trip-form" class="p-5 space-y-5">
+        <input type="hidden" id="tf-id">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label for="tf-title" class="block text-sm font-medium text-slate-700 mb-1">Tên chuyến đi</label>
+            <input type="text" id="tf-title" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition" placeholder="VD: Hà Nội – Hạ Long 5 ngày">
+          </div>
+          <div>
+            <label for="tf-destination" class="block text-sm font-medium text-slate-700 mb-1">Điểm đến chính</label>
+            <input type="text" id="tf-destination" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition" placeholder="VD: Hạ Long">
+          </div>
+          <div>
+            <label for="tf-budget" class="block text-sm font-medium text-slate-700 mb-1">Ngân sách (đ)</label>
+            <input type="number" id="tf-budget" min="0" step="100000" value="5000000" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+          </div>
+          <div>
+            <label for="tf-start" class="block text-sm font-medium text-slate-700 mb-1">Ngày bắt đầu</label>
+            <input type="date" id="tf-start" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 bg-white transition">
+          </div>
+          <div>
+            <label for="tf-end" class="block text-sm font-medium text-slate-700 mb-1">Ngày kết thúc</label>
+            <input type="date" id="tf-end" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 bg-white transition">
+          </div>
+        </div>
+        <div>
+          <span class="block text-sm font-medium text-slate-700 mb-2">Sở thích</span>
+          <div id="tf-interests" class="flex flex-wrap gap-2"></div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-slate-700">Lịch trình từng ngày</span>
+            <span class="text-xs text-slate-400">5 ngày · mỗi ngày 3 hoạt động</span>
+          </div>
+          <div id="itinerary-editor" class="space-y-3 max-h-80 overflow-y-auto pr-1"></div>
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button type="button" data-close-modal="modal-trip" class="flex-1 py-2.5 rounded-lg border border-slate-300 text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
+          <button type="submit" class="flex-1 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-floppy-disk mr-1.5"></i>Lưu chuyến đi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal: xác nhận xóa -->
+  <div id="modal-delete" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-delete"></div>
+    <div class="tw-modal-panel w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6 text-center">
+      <span class="w-14 h-14 mx-auto rounded-2xl bg-red-100 text-red-500 flex items-center justify-center text-2xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
+      <h3 class="mt-4 font-bold text-slate-900 text-lg">Xóa chuyến đi?</h3>
+      <p id="delete-trip-name" class="mt-1 text-sm text-slate-500"></p>
+      <div class="mt-5 flex gap-2">
+        <button type="button" data-close-modal="modal-delete" class="flex-1 py-2.5 rounded-lg border border-slate-300 text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
+        <button type="button" id="confirm-delete" class="flex-1 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-trash-can mr-1.5"></i>Xóa</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal: xem chuyến đi + thêm vào chuyến đi -->
+  <div id="modal-trip-view" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-trip-view"></div>
+    <div class="tw-modal-panel w-full max-w-3xl bg-white rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between p-5 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-map-location-dot text-blue-500 mr-2"></i>Xem chuyến đi</h3>
+        <button type="button" data-close-modal="modal-trip-view" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
+        <div class="bg-blue-50 rounded-xl p-4 flex items-start justify-between gap-3 flex-wrap">
+          <div class="min-w-0">
+            <h4 id="tv-title" class="font-bold text-slate-900"></h4>
+            <p id="tv-meta" class="text-xs text-slate-500 mt-1"></p>
+            <div id="tv-interests" class="mt-2 flex flex-wrap gap-1.5"></div>
+          </div>
+          <div class="text-right shrink-0"><span id="tv-status"></span><p id="tv-budget" class="mt-1.5 text-sm font-bold text-violet-600"></p></div>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold text-slate-900 mb-2"><i class="fa-regular fa-calendar-days text-blue-500 mr-1.5"></i>Lịch trình chi tiết</h4>
+          <div id="tv-itinerary" class="space-y-2.5 max-h-60 overflow-y-auto pr-1"></div>
+        </div>
+        <!-- Thêm vào chuyến đi → lưu vào Lịch sử đã đặt -->
+        <div class="rounded-xl border border-violet-100 bg-violet-50 p-4">
+          <h4 class="text-sm font-bold text-slate-900"><i class="fa-solid fa-bookmark text-violet-500 mr-1.5"></i>Thêm vào chuyến đi</h4>
+          <p class="text-xs text-slate-500 mt-1 mb-3">Lưu chuyến đi này vào <b>Lịch sử đã đặt</b> (Đặt chuyến → Lịch sử đặt chuyến) để theo dõi cùng các đơn đặt tour của bạn.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div>
+              <label for="at-date" class="block text-[11px] font-semibold text-slate-600 mb-1">Ngày khởi hành</label>
+              <input type="date" id="at-date" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-violet-500 bg-white transition">
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Số khách</label>
+              <div class="flex items-center gap-2">
+                <button type="button" id="at-g-minus" class="w-9 h-9 rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 font-bold transition">−</button>
+                <input id="at-guests" readonly value="1" class="flex-1 border border-slate-300 rounded-lg px-2 py-2 text-center text-sm font-semibold outline-none bg-white">
+                <button type="button" id="at-g-plus" class="w-9 h-9 rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 font-bold transition">+</button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Ngân sách chuyến</label>
+              <p id="at-amount" class="text-sm font-bold text-violet-600 pb-2">0đ</p>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center gap-3 flex-wrap">
+            <button type="button" id="btn-add-to-trip" class="px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold shadow-md transition"><i class="fa-solid fa-plus mr-1.5"></i>Thêm vào chuyến đi</button>
+            <span id="at-status" class="text-xs font-semibold text-emerald-600 hidden"><i class="fa-solid fa-circle-check mr-1"></i>Đã lưu trong Lịch sử đã đặt</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-5 border-t border-slate-100 flex justify-end">
+        <button type="button" data-close-modal="modal-trip-view" class="px-4 py-2.5 rounded-lg border border-slate-300 text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Đóng</button>
+      </div>
+    </div>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="traveler.js"></script>
+</body>
+</html>
+

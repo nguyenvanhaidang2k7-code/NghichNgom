@@ -1,0 +1,28 @@
+.design-title { margin: 3px 0 4px; font-size: 24px; }
+.design-page { padding: 16px 2.5%; }
+.design-subtitle { margin: 0; color: var(--muted); font-size: 11px; }
+.design-divider { height: 2px; margin: 12px 0 20px; border: 0; background: var(--blue); }
+.design-section { margin: 0 0 20px; }
+.design-section h2 { margin: 0 0 12px 13px; font-size: 14px; }
+.swatches { display: grid; grid-template-columns: repeat(6, minmax(90px, 1fr)); gap: 18px; }
+.swatch { text-align: center; color: #445574; font-size: 10px; font-weight: 650; }
+.swatch-chip { height: 60px; margin-bottom: 7px; border: 1px solid var(--line); border-radius: 8px; }
+.swatch-chip.navy { background: #132e56; }
+.swatch-chip.blue { background: #3477f5; }
+.swatch-chip.green { background: #14a878; }
+.swatch-chip.purple { background: #6e5ae5; }
+.swatch-chip.orange { background: #e68a19; }
+.swatch-chip.background { background: #f5f7fc; }
+.component-examples { display: grid; grid-template-columns: 130px 130px 100px 100px 100px 100px; gap: 14px; }
+.component-examples .btn { width: 100%; }
+.design-cards { display: grid; grid-template-columns: .8fr 1.3fr; gap: 22px; }
+.design-card { min-height: 122px; padding: 18px; }
+.design-card p { margin: 12px 8px; color: var(--muted); font-size: 10px; }
+.design-footer { display: flex; justify-content: space-between; margin-top: 85px; color: var(--muted); font-size: 10px; }
+
+@media (max-width: 760px) {
+  .swatches { grid-template-columns: repeat(3, minmax(75px, 1fr)); gap: 12px; }
+  .component-examples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .design-cards { grid-template-columns: 1fr; gap: 12px; }
+  .design-footer { margin-top: 35px; }
+}

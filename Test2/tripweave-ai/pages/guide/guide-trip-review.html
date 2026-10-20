@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review lịch trình – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="guide.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="guide" data-page="guide-trip-review">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6">
+      <div class="fade-up">
+        <h1 class="text-2xl font-bold text-slate-900"><i class="fa-solid fa-clipboard-check text-emerald-500 mr-2"></i>Review lịch trình</h1>
+        <p class="text-sm text-slate-500 mt-0.5">Nhận xét từng ngày, gửi phản hồi và duyệt lịch trình cho du khách.</p>
+      </div>
+      <div class="mt-5 grid lg:grid-cols-3 gap-5 items-start">
+        <!-- Queue -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-4 fade-up lg:sticky lg:top-20">
+          <div class="flex gap-1 bg-slate-100 rounded-xl p-1 mb-3" id="queue-tabs">
+            <button type="button" data-tab="Chờ review" class="qtab flex-1 px-2 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500 text-white transition">Chờ review</button>
+            <button type="button" data-tab="Approved" class="qtab flex-1 px-2 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Đã duyệt</button>
+            <button type="button" data-tab="Tất cả" class="qtab flex-1 px-2 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Tất cả</button>
+          </div>
+          <div id="trip-queue" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1"></div>
+        </section>
+        <!-- Review panel -->
+        <section class="lg:col-span-2 space-y-4">
+          <div id="review-empty" class="bg-white rounded-2xl border-2 border-dashed border-slate-200 p-12 text-center">
+            <span class="ph-img ph-green w-20 h-20 mx-auto rounded-2xl text-4xl">🧭</span>
+            <h3 class="mt-4 font-bold text-slate-800">Chọn một lịch trình để review</h3>
+            <p class="mt-1 text-sm text-slate-500 max-w-sm mx-auto">Danh sách bên trái hiển thị các lịch trình du khách gửi tới. Bạn có thể nhận xét từng ngày trước khi duyệt hoặc từ chối.</p>
+          </div>
+          <div id="review-panel" class="hidden space-y-4">
+            <div class="bg-white rounded-2xl border border-slate-200 p-5">
+              <div class="flex items-start justify-between gap-3 flex-wrap">
+                <div>
+                  <h2 id="rv-title" class="text-lg font-bold text-slate-900"></h2>
+                  <p id="rv-meta" class="text-sm text-slate-500 mt-1"></p>
+                </div>
+                <div id="rv-status"></div>
+              </div>
+              <div id="rv-interests" class="mt-3 flex flex-wrap gap-1.5"></div>
+            </div>
+            <div id="rv-days" class="space-y-3"></div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-5">
+              <label for="rv-feedback" class="block text-sm font-bold text-slate-800 mb-2"><i class="fa-regular fa-comment-dots text-emerald-500 mr-1.5"></i>Phản hồi tổng thể cho du khách</label>
+              <textarea id="rv-feedback" rows="3" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition resize-none" placeholder="VD: Lịch trình hợp lý, riêng Ngày 3 nên đổi sang buổi sáng cho mát..."></textarea>
+              <p id="rv-done" class="hidden mt-3 text-sm font-semibold text-slate-500 bg-slate-50 rounded-xl px-4 py-3 text-center"></p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button type="button" id="btn-approve" class="flex-1 min-w-[140px] py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition"><i class="fa-solid fa-circle-check mr-1.5"></i>Duyệt lịch trình</button>
+                <button type="button" id="btn-reject" class="flex-1 min-w-[140px] py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-bold shadow-lg transition"><i class="fa-solid fa-circle-xmark mr-1.5"></i>Từ chối</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white mt-6">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="guide.js"></script>
+</body>
+</html>

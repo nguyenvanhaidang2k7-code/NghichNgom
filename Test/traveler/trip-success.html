@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lưu thành công - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-background flex flex-col items-center justify-center h-screen font-sans p-6">
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-md w-full text-center">
+        <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Đã lưu lịch trình!</h2>
+        <p class="text-gray-500 text-sm mb-6">Chuyến đi "Hành trình 5 Ngày 4 Đêm tại Hạ Long" đã được lưu vào danh sách của bạn.</p>
+
+        <div class="bg-blue-50 text-left p-4 rounded-xl mb-6">
+            <div class="flex items-center gap-2 text-accent font-semibold text-sm mb-2">
+                <i class="fa-solid fa-lightbulb"></i> Vì sao có lịch trình này?
+            </div>
+            <p class="text-xs text-gray-600 leading-relaxed">
+                TripWeave AI đã chọn <strong>Vịnh Hạ Long</strong> vì bạn thích <em>Thiên nhiên</em> và <em>Ẩm thực</em>, đồng thời tối ưu các địa điểm ăn uống đặc sản với mức chi phí phù hợp với ngân sách <em>Tiêu chuẩn</em> của bạn.
+            </p>
+        </div>
+
+        <div class="flex gap-3">
+            <button onclick="window.location.href='discover.html'" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 rounded-lg font-medium transition text-sm">Về trang chủ</button>
+            <button onclick="alert('Đã gửi yêu cầu đến HDV'); window.location.href='discover.html';" class="flex-1 bg-accent hover:bg-blue-700 text-white py-2.5 rounded-lg font-medium transition text-sm">Gửi HDV Review</button>
+        </div>
+    </div>
+</body>
+</html>

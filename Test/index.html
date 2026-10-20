@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>TripWeave AI - Đang chuyển hướng...</title>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = Auth.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            switch(user.role) {
+                case 'traveler': window.location.href = 'traveler/discover.html'; break;
+                case 'guide': window.location.href = 'guide/dashboard.html'; break;
+                case 'partner': window.location.href = 'partner/dashboard.html'; break;
+                case 'admin': window.location.href = 'admin/dashboard.html'; break;
+                default: window.location.href = 'login.html';
+            }
+        });
+    </script>
+</head>
+<body></body>
+</html>

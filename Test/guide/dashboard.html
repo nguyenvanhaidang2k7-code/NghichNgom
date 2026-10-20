@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard HDV - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', warning: '#F97316', purple: '#8B5CF6', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/mock-data.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Tổng quan Hướng dẫn viên</h1>
+                    <p class="text-gray-500 text-sm">Chào mừng trở lại, xem qua các thông số của bạn hôm nay.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-50 text-accent rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <div>
+                            <div class="text-sm text-gray-500 font-medium">Lịch trình đã Review</div>
+                            <div class="text-2xl font-bold text-gray-900">128</div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-star"></i></div>
+                        <div>
+                            <div class="text-sm text-gray-500 font-medium">Đánh giá trung bình</div>
+                            <div class="text-2xl font-bold text-gray-900">4.8 <span class="text-sm font-normal text-gray-400">/ 5.0</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-layer-group"></i></div>
+                        <div>
+                            <div class="text-sm text-gray-500 font-medium">Bộ sưu tập cá nhân</div>
+                            <div class="text-2xl font-bold text-gray-900">12</div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-orange-50 text-warning rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-clock"></i></div>
+                        <div>
+                            <div class="text-sm text-gray-500 font-medium">Chờ Review</div>
+                            <div class="text-2xl font-bold text-gray-900">5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                        <h2 class="font-bold text-gray-900">Yêu cầu Review mới nhất</h2>
+                        <a href="trip-review.html" class="text-sm text-accent hover:underline">Xem tất cả</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                    <th class="px-6 py-3 font-medium">Khách hàng</th>
+                                    <th class="px-6 py-3 font-medium">Lịch trình</th>
+                                    <th class="px-6 py-3 font-medium">Ngày gửi</th>
+                                    <th class="px-6 py-3 font-medium">Trạng thái</th>
+                                    <th class="px-6 py-3 font-medium">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm">
+                                <tr>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://ui-avatars.com/api/?name=NA&background=2563EB&color=fff" class="w-8 h-8 rounded-full">
+                                            <span class="font-medium text-gray-900">Nguyễn Văn A</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-medium text-gray-700">Hành trình 5 Ngày Hạ Long</td>
+                                    <td class="px-6 py-4 text-gray-500">2 giờ trước</td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 bg-orange-50 text-warning text-xs font-medium rounded-full">Chờ review</span></td>
+                                    <td class="px-6 py-4"><a href="trip-detail-review.html" class="text-accent hover:text-blue-700 font-medium">Chi tiết</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

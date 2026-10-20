@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo lịch trình AI - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', warning: '#F97316', purple: '#8B5CF6', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/mock-data.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-purple-100 text-purple-600 rounded-full mb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">Lên kế hoạch với AI</h1>
+                    <p class="text-gray-500">Hãy cho chúng tôi biết sở thích của bạn, AI sẽ tạo ra lịch trình hoàn hảo.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <form action="ai-loading.html" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Bạn muốn đi đâu?</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent outline-none transition" placeholder="Ví dụ: Đà Lạt, Hạ Long, Sapa...">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Ngày đi</label>
+                                <input type="date" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Ngày về</label>
+                                <input type="date" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Ngân sách dự kiến</label>
+                            <select class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent outline-none bg-white">
+                                <option>Tiết kiệm (Dưới 3 triệu)</option>
+                                <option selected>Tiêu chuẩn (3 - 7 triệu)</option>
+                                <option>Thoải mái (7 - 15 triệu)</option>
+                                <option>Sang trọng (Trên 15 triệu)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Sở thích của bạn</label>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="peer sr-only" checked>
+                                    <div class="px-4 py-2 border border-gray-200 rounded-lg peer-checked:border-accent peer-checked:bg-blue-50 peer-checked:text-accent text-sm font-medium text-gray-600 transition">Thiên nhiên</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="peer sr-only">
+                                    <div class="px-4 py-2 border border-gray-200 rounded-lg peer-checked:border-accent peer-checked:bg-blue-50 peer-checked:text-accent text-sm font-medium text-gray-600 transition">Văn hóa & Lịch sử</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="peer sr-only" checked>
+                                    <div class="px-4 py-2 border border-gray-200 rounded-lg peer-checked:border-accent peer-checked:bg-blue-50 peer-checked:text-accent text-sm font-medium text-gray-600 transition">Ẩm thực</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="peer sr-only">
+                                    <div class="px-4 py-2 border border-gray-200 rounded-lg peer-checked:border-accent peer-checked:bg-blue-50 peer-checked:text-accent text-sm font-medium text-gray-600 transition">Mạo hiểm</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-accent to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 mt-4">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Tạo lịch trình với AI
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

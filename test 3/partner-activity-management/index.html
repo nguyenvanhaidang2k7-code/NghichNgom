@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TripWeave AI — Màn hình Quản lý trải nghiệm/hoạt động dành cho Đối tác địa phương (Role 3)." />
+  <title>TripWeave AI · Quản lý trải nghiệm — Đối tác địa phương</title>
+
+  <!-- Font chữ hiện đại theo Design System (Inter/Roboto), có fallback hệ thống -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- CSS tách biệt của màn hình -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ============================================================
+       TOPBAR — Thanh điều hướng trên cùng (nhất quán toàn hệ thống)
+       ============================================================ -->
+  <header class="topbar">
+    <!-- Nút mở sidebar trên tablet/mobile (ẩn ở desktop) -->
+    <button class="icon-btn topbar__menu" id="btnMenu" aria-label="Mở menu điều hướng">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+
+    <!-- Logo thương hiệu TripWeave AI -->
+    <a href="#" class="topbar__brand" id="brandLink">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 4l9 15H3z"/></svg>
+      <span>TripWeave AI</span>
+    </a>
+
+    <!-- Ô tìm kiếm toàn cục (mô phỏng) -->
+    <div class="topbar__search">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="globalSearch" placeholder="Tìm kiếm địa điểm, thành phố, hoạt động..." aria-label="Tìm kiếm toàn cục" />
+    </div>
+
+    <!-- Hành động phía phải: chuông thông báo + avatar người dùng -->
+    <div class="topbar__actions">
+      <button class="icon-btn icon-btn--bell" id="btnBell" aria-label="Thông báo">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a1.8 1.8 0 0 0 3 0"/></svg>
+        <span class="icon-btn__dot"></span>
+      </button>
+      <button class="avatar" id="btnAvatar" title="Đối tác địa phương">ĐT</button>
+    </div>
+  </header>
+  <!-- ============================================================
+       LAYOUT — Sidebar trái + Khu nội dung chính
+       ============================================================ -->
+  <div class="layout">
+    <!-- SIDEBAR điều hướng của vai trò Đối tác địa phương -->
+    <aside class="sidebar" id="sidebar" aria-label="Menu đối tác">
+      <nav class="sidebar__nav">
+        <a href="#" class="sidebar__link" data-screen="Tổng quan">Tổng quan</a>
+        <a href="#" class="sidebar__link is-active" data-screen="Trải nghiệm">Trải nghiệm</a>
+        <a href="#" class="sidebar__link" data-screen="Đơn đặt">Đơn đặt</a>
+        <a href="#" class="sidebar__link" data-screen="Đánh giá">Đánh giá</a>
+        <a href="#" class="sidebar__link" data-screen="Doanh thu">Doanh thu</a>
+        <a href="#" class="sidebar__link" data-screen="Hồ sơ">Hồ sơ</a>
+      </nav>
+      <div class="sidebar__divider"></div>
+      <p class="sidebar__role">Đối tác địa phương</p>
+    </aside>
+    <!-- Lớp phủ mờ khi mở sidebar trên tablet/mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main">
+      <!-- Đường kẻ nhấn màu tím đầu trang (theo mockup) -->
+      <div class="main__accent" aria-hidden="true"></div>
+
+      <!-- ========== VIEW 1: DANH SÁCH TRẢI NGHIỆM ========== -->
+      <section class="view" id="viewList">
+        <!-- Toolbar: ô tìm kiếm trong trang + nút thêm mới -->
+        <div class="card toolbar">
+          <div class="toolbar__search">
+            <label class="field-label" for="searchInput">Tìm trải nghiệm</label>
+            <div class="searchbox">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <input type="text" id="searchInput" placeholder="Tìm kiếm..." aria-label="Tìm trải nghiệm" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="btnAdd">+ Thêm trải nghiệm</button>
+        </div>
+
+        <!-- Bộ lọc theo trạng thái & loại trải nghiệm -->
+        <div class="filters" id="filters">
+          <div class="filter-group">
+            <span class="filter-group__label">Trạng thái:</span>
+            <div class="chips" data-group="status">
+              <button class="chip is-active" data-value="all">Tất cả</button>
+              <button class="chip" data-value="active">Đang hoạt động</button>
+              <button class="chip" data-value="paused">Tạm ngưng</button>
+              <button class="chip" data-value="disabled">Đã vô hiệu hóa</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-group__label">Loại:</span>
+            <div class="chips" data-group="category">
+              <button class="chip is-active" data-value="all">Tất cả</button>
+              <button class="chip" data-value="Làng cổ">Làng cổ</button>
+              <button class="chip" data-value="Du thuyền">Du thuyền</button>
+              <button class="chip" data-value="Homestay">Homestay</button>
+              <button class="chip" data-value="Tour đảo">Tour đảo</button>
+              <button class="chip" data-value="Nghỉ dưỡng">Nghỉ dưỡng</button>
+            </div>
+          </div>
+        </div>
+        <!-- ========== AI ROUTE BALANCE ASSISTANT (mô phỏng AI) ========== -->
+        <section class="card ai-card" id="aiCard" aria-label="Trợ lý AI cân bằng tuyến">
+          <div class="ai-card__head">
+            <div class="ai-card__title">
+              <span class="ai-card__spark">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4z"/><path d="M19 14l.9 2.6L22 17l-2.1.7L19 20l-.9-2.3L16 17l2.1-.4z"/></svg>
+              </span>
+              <div>
+                <h3>AI Route Balance Assistant</h3>
+                <p>Phân tích tải đặt chỗ và đề xuất cân bằng slot giữa các tuyến/trải nghiệm của bạn.</p>
+              </div>
+            </div>
+            <button class="btn btn--secondary btn--sm" id="aiToggle">Thu gọn</button>
+          </div>
+
+          <div class="ai-card__body" id="aiBody">
+            <!-- Bước 1: Nhập / chọn dữ liệu đầu vào -->
+            <div class="ai-step" id="aiStepInput">
+              <p class="ai-hint">1 · Chọn dữ liệu đầu vào (các trải nghiệm đang hoạt động):</p>
+              <div class="ai-checks" id="aiChecks"></div>
+              <div class="ai-row">
+                <div class="field ai-row__field">
+                  <label class="field-label" for="aiPeriod">Khung giờ phân tích</label>
+                  <select class="input" id="aiPeriod">
+                    <option value="cao điểm">Cao điểm (09:00 – 15:00)</option>
+                    <option value="thấp điểm">Thấp điểm (15:00 – 18:00)</option>
+                  </select>
+                </div>
+                <button class="btn btn--primary" id="aiRun">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
+                  Chạy phân tích
+                </button>
+              </div>
+              <p class="ai-note">* Đây là mô phỏng AI phục vụ demo — kết quả không sử dụng dữ liệu thật.</p>
+            </div>
+
+            <!-- Bước 2: Trạng thái AI đang xử lý (thinking) -->
+            <div class="ai-step hidden" id="aiStepThinking">
+              <div class="ai-thinking">
+                <span class="spinner"></span>
+                <div>
+                  <p class="ai-thinking__text" id="aiThinkingText">Đang thu thập dữ liệu đặt chỗ...</p>
+                  <div class="ai-dots"><span></span><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bước 3: Kết quả đề xuất + giải thích + nút điều khiển -->
+            <div class="ai-step hidden" id="aiStepResult">
+              <div class="ai-result__head">
+                <h4>Đề xuất cân bằng tuyến</h4>
+                <span class="badge badge--success">Sẵn sàng áp dụng</span>
+              </div>
+              <div class="ai-sugs" id="aiSuggestions"></div>
+              <div class="ai-why">
+                <h5>Vì sao AI đưa ra kết quả này?</h5>
+                <ul id="aiReasons"></ul>
+              </div>
+              <div class="ai-actions">
+                <button class="btn btn--primary" id="aiAccept">Chấp nhận</button>
+                <button class="btn btn--secondary" id="aiEdit">Chỉnh sửa</button>
+                <button class="btn btn--danger-ghost" id="aiReject">Từ chối</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Đếm số kết quả hiện có -->
+        <p class="list-count" id="listCount"></p>
+
+        <!-- Danh sách thẻ dữ liệu (render bằng JS) -->
+        <div class="list" id="listContainer" aria-live="polite"></div>
+
+        <!-- Trạng thái rỗng (Empty State) -->
+        <div class="card empty hidden" id="emptyState">
+          <div class="empty__icon">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l3-8h12l3 8"/><path d="M3 13v6h18v-6"/><path d="M3 13h5l1.5 3h5L16 13h5"/></svg>
+          </div>
+          <h3 id="emptyTitle">Không có dữ liệu</h3>
+          <p id="emptyDesc">Chưa có trải nghiệm nào được ghi nhận.</p>
+          <div class="empty__actions">
+            <button class="btn btn--secondary" id="emptyClear">Xóa bộ lọc</button>
+            <button class="btn btn--primary" id="emptyAdd">+ Thêm trải nghiệm</button>
+          </div>
+        </div>
+      </section>
+      <!-- ========== VIEW 2: FORM THÊM / SỬA TRẢI NGHIỆM ========== -->
+      <section class="view hidden" id="viewForm">
+        <div class="card form-card">
+          <!-- Đầu form: nút quay lại + tiêu đề -->
+          <div class="form-card__head">
+            <button class="btn btn--secondary" id="btnBack">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+              Quay lại danh sách
+            </button>
+            <h2 id="formTitle">Thông tin trải nghiệm</h2>
+          </div>
+
+          <!-- Form nhập liệu có validate -->
+          <form id="expForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label class="field-label" for="fName">Tên trải nghiệm <span class="req">*</span></label>
+                <input class="input" id="fName" type="text" placeholder="VD: Du thuyền ngắm vịnh" />
+                <small class="field-error" id="errName"></small>
+              </div>
+              <div class="field">
+                <label class="field-label" for="fCategory">Loại <span class="req">*</span></label>
+                <select class="input" id="fCategory">
+                  <option value="">— Chọn loại —</option>
+                  <option value="Làng cổ">Làng cổ</option>
+                  <option value="Du thuyền">Du thuyền</option>
+                  <option value="Homestay">Homestay</option>
+                  <option value="Tour đảo">Tour đảo</option>
+                  <option value="Nghỉ dưỡng">Nghỉ dưỡng</option>
+                </select>
+                <small class="field-error" id="errCategory"></small>
+              </div>
+              <div class="field">
+                <label class="field-label" for="fPrice">Giá (đ/người) <span class="req">*</span></label>
+                <input class="input" id="fPrice" type="text" inputmode="numeric" placeholder="VD: 1200000" />
+                <small class="field-error" id="errPrice"></small>
+              </div>
+              <div class="field">
+                <label class="field-label" for="fCapacity">Sức chứa (người) <span class="req">*</span></label>
+                <input class="input" id="fCapacity" type="number" min="1" placeholder="VD: 20" />
+                <small class="field-error" id="errCapacity"></small>
+              </div>
+              <div class="field field--full">
+                <label class="field-label" for="fDesc">Mô tả</label>
+                <textarea class="input" id="fDesc" rows="3" placeholder="Trải nghiệm ngắm cảnh và dùng bữa trên du thuyền..."></textarea>
+                <small class="field-error" id="errDesc"></small>
+              </div>
+              <div class="field">
+                <label class="field-label" for="fDays">Ngày hoạt động</label>
+                <input class="input" id="fDays" type="text" placeholder="Thứ 2 – Chủ nhật" />
+                <small class="field-error"></small>
+              </div>
+              <div class="field">
+                <label class="field-label" for="fTime">Khung giờ</label>
+                <input class="input" id="fTime" type="text" placeholder="08:00 – 18:00" />
+                <small class="field-error" id="errTime"></small>
+              </div>
+            </div>
+            <!-- Chân form: nút hủy + lưu -->
+            <div class="form-card__foot">
+              <button type="button" class="btn btn--secondary" id="btnCancelForm">Hủy</button>
+              <button type="submit" class="btn btn--primary" id="btnSubmitForm">Lưu trải nghiệm</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========== MODAL: QUẢN LÝ TRẢI NGHIỆM ========== -->
+  <div class="modal" id="modalManage" aria-hidden="true">
+    <div class="modal__backdrop" data-close="modalManage"></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
+      <div class="modal__head">
+        <h3 id="manageTitle">Quản lý trải nghiệm</h3>
+        <button class="icon-btn" data-close="modalManage" aria-label="Đóng">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <!-- Nội dung modal được render động bằng JS -->
+      <div class="modal__body" id="manageBody"></div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL: XÁC NHẬN THAO TÁC NGUY HIỂM ========== -->
+  <div class="modal" id="modalConfirm" aria-hidden="true">
+    <div class="modal__backdrop" data-close="modalConfirm"></div>
+    <div class="modal__dialog modal__dialog--sm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="modal__head">
+        <h3 id="confirmTitle">Xác nhận</h3>
+        <button class="icon-btn" data-close="modalConfirm" aria-label="Đóng">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <p class="confirm-msg" id="confirmMessage"></p>
+      </div>
+      <div class="modal__foot">
+        <button class="btn btn--secondary" id="confirmCancel">Hủy</button>
+        <button class="btn btn--danger" id="confirmOk">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== KHU VỰC TOAST (thông báo góc phải) ========== -->
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <!-- JS tách biệt của màn hình -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+

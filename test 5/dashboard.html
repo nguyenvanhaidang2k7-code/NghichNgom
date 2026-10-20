@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | TripWeave AI</title><link rel="stylesheet" href="assets/css/common.css"><link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body data-role="admin" data-page="dashboard">
+  <div data-page-content>
+    <section class="stats-grid">
+      <article class="card stat-card"><div class="stat-label">Người dùng</div><div class="stat-value">2.640</div></article>
+      <article class="card stat-card"><div class="stat-label">Nội dung</div><div class="stat-value blue">312</div></article>
+      <article class="card stat-card"><div class="stat-label">Chờ duyệt</div><div class="stat-value orange">18</div></article>
+      <article class="card stat-card"><div class="stat-label">Báo cáo</div><div class="stat-value red">10</div></article>
+    </section>
+    <div class="admin-chart-layout">
+      <section class="card card-pad">
+        <h1 class="card-title">Hoạt động hệ thống</h1>
+        <h2 class="card-title admin-chart-heading">Biểu đồ hoạt động theo tuần</h2>
+        <div id="admin-chart" aria-label="Biểu đồ hoạt động hệ thống"></div>
+      </section>
+      <section class="card card-pad admin-rate">
+        <h2 class="card-title">Tỷ lệ nội dung</h2>
+        <div class="rate-number approved-rate">Duyệt 72%</div>
+        <div class="rate-number pending-rate">Chờ 18%</div>
+        <div class="rate-number rejected-rate">Từ chối 10%</div>
+      </section>
+    </div>
+  </div>
+  <script src="assets/js/app.js"></script><script src="assets/js/admin.js"></script>
+</body>
+</html>

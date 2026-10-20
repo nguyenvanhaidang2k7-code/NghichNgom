@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     TRIPWEAVE AI - CSE122: XÂY HÀNH TRÌNH DU LỊCH THEO SỞ THÍCH
+     Trang: QUẢN LÝ TRẢI NGHIỆM (partner-experience-management)
+     Vai trò: ĐỐI TÁC ĐỊA PHƯƠNG
+     ---------------------------------------------------------------------
+     Cấu trúc 3 tệp tách bạch (quy tắc của đồ án):
+       + partner-experience-management.html : cấu trúc HTML semantic (tệp này)
+       + partner-experience-management.css  : style riêng của trang
+       + partner-experience-management.js   : logic DOM, sự kiện, validation,
+                                              dữ liệu mẫu + LocalStorage
+     Màn hình mô phỏng theo mockup: danh sách trải nghiệm có tìm kiếm, thêm/sửa
+     qua Modal, nút "Quản lý" mở Modal điều hành (đổi trạng thái, lưu trữ, xóa)
+     và form "Thông tin trải nghiệm" đầy đủ trường dữ liệu + trợ lý AI.
+     ===================================================================== -->
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TripWeave AI - Trang quản lý trải nghiệm dành cho đối tác địa phương" />
+  <title>Quản lý trải nghiệm | TripWeave AI</title>
+
+  <!-- CSS riêng của trang (quy tắc tách bạch HTML / CSS / JS) -->
+  <link rel="stylesheet" href="partner-experience-management.css" />
+</head>
+
+<!-- data-role đánh dấu vai trò của trang: Đối tác địa phương -->
+<body data-role="partner">
+
+  <!-- ==================== HEADER (thanh trên cùng) ====================
+       Chứa: logo thương hiệu, ô tìm kiếm toàn cục, chuông thông báo, avatar -->
+  <header class="app-header">
+    <!-- Logo + tên hệ thống -->
+    <a class="brand" href="#" title="TripWeave AI">
+      <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 4 L21 19 H3 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">TripWeave AI</span>
+    </a>
+
+    <!-- Ô tìm kiếm toàn cục (đồng bộ xuống ô tìm kiếm của danh sách bên dưới) -->
+    <div class="header-search">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="globalSearch" type="text" placeholder="Tìm kiếm địa điểm, thành phố, hoạt động..." aria-label="Tìm kiếm toàn cục" />
+    </div>
+
+    <!-- Nhóm nút phải: chuông thông báo + avatar người dùng -->
+    <div class="header-right">
+      <button class="icon-btn" id="btnNotif" title="Thông báo" aria-label="Thông báo" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M10 19a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="notif-dot" aria-hidden="true"></span>
+      </button>
+      <button class="avatar" id="btnAvatar" title="Đối tác địa phương" aria-label="Tài khoản" type="button">ĐT</button>
+    </div>
+  </header>
+
+  <!-- ==================== KHUNG THÂN TRANG ====================
+       Sidebar cố định bên trái + vùng nội dung chính bên phải -->
+  <div class="app-body">
+
+    <!-- ---------- SIDEBAR: menu phân cấp theo vai trò Đối tác ---------- -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-nav" aria-label="Menu đối tác địa phương">
+        <!-- data-page: tên trang đích. Các trang anh em cùng vai trò sẽ lần lượt
+             được tạo ở nhiệm vụ tiếp theo; click vào trang chưa có sẽ báo toast demo. -->
+        <a href="#" class="nav-item" data-page="partner-overview">Tổng quan</a>
+        <a href="#" class="nav-item active" data-page="partner-experience-management" aria-current="page">Trải nghiệm</a>
+        <a href="#" class="nav-item" data-page="partner-orders">Đơn đặt</a>
+        <a href="#" class="nav-item" data-page="partner-reviews">Đánh giá</a>
+        <a href="#" class="nav-item" data-page="partner-revenue">Doanh thu</a>
+        <a href="#" class="nav-item" data-page="partner-profile">Hồ sơ</a>
+      </nav>
+      <div class="sidebar-footer">Đối tác địa phương</div>
+    </aside>
+
+    <!-- ---------- VÙNG NỘI DUNG CHÍNH ---------- -->
+    <main class="app-main">
+
+      <!-- Tiêu đề trang -->
+      <div class="page-head">
+        <h1 class="page-title">Quản lý trải nghiệm</h1>
+        <p class="page-sub">Quản lý danh sách trải nghiệm du lịch mà doanh nghiệp bạn cung cấp cho du khách.</p>
+      </div>
+
+      <!-- Thanh công cụ: tìm kiếm + lọc trạng thái + nút thêm mới -->
+      <section class="card toolbar-card" aria-label="Thanh công cụ">
+        <div class="toolbar">
+          <div class="toolbar-search">
+            <label class="field-label" for="searchInput">Tìm trải nghiệm</label>
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+                <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <input id="searchInput" type="text" placeholder="Tìm kiếm..." aria-label="Tìm trải nghiệm" />
+            </div>
+          </div>
+
+          <div class="toolbar-actions">
+            <!-- Lọc nhanh theo trạng thái hoạt động -->
+            <select id="filterStatus" class="control select" aria-label="Lọc theo trạng thái">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="active">Đang hoạt động</option>
+              <option value="paused">Tạm ngưng</option>
+              <option value="archived">Đã lưu trữ</option>
+            </select>
+            <!-- Nút mở Modal thêm trải nghiệm mới -->
+            <button id="btnAdd" class="btn btn-primary" type="button">+ Thêm trải nghiệm</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Khu vực danh sách: chứa đủ các khối trạng thái + danh sách thật -->
+      <section id="listArea" aria-live="polite" aria-busy="false">
+
+        <!-- TRẠNG THÁI 1: ĐANG TẢI (khung xương shimmer) -->
+        <div id="loadingState" class="skeleton-wrap" hidden>
+          <div class="skeleton-row"><div class="skeleton-thumb shimmer"></div><div class="skeleton-lines"><div class="skeleton-line shimmer"></div><div class="skeleton-line short shimmer"></div></div><div class="skeleton-btn shimmer"></div></div>
+          <div class="skeleton-row"><div class="skeleton-thumb shimmer"></div><div class="skeleton-lines"><div class="skeleton-line shimmer"></div><div class="skeleton-line short shimmer"></div></div><div class="skeleton-btn shimmer"></div></div>
+          <div class="skeleton-row"><div class="skeleton-thumb shimmer"></div><div class="skeleton-lines"><div class="skeleton-line shimmer"></div><div class="skeleton-line short shimmer"></div></div><div class="skeleton-btn shimmer"></div></div>
+        </div>
+
+        <!-- TRẠNG THÁI 2: LỖI (khi đọc LocalStorage thất bại) -->
+        <div id="errorState" class="card state-card" hidden>
+          <div class="state-icon state-icon-error">!</div>
+          <h2 class="state-title">Không thể tải dữ liệu trải nghiệm</h2>
+          <p class="state-desc">Dữ liệu lưu cục bộ có vẻ bị hỏng hoặc sai định dạng. Bạn có thể thử tải lại hoặc khôi phục dữ liệu mẫu.</p>
+          <div class="state-actions">
+            <button id="btnRetry" class="btn btn-primary" type="button">Thử lại</button>
+            <button id="btnResetData" class="btn btn-light" type="button">Khôi phục dữ liệu mẫu</button>
+          </div>
+        </div>
+
+        <!-- TRẠNG THÁI 3: TRỐNG (chưa có trải nghiệm nào) -->
+        <div id="emptyState" class="card state-card" hidden>
+          <div class="state-icon state-icon-empty">◇</div>
+          <h2 class="state-title">Chưa có trải nghiệm nào</h2>
+          <p class="state-desc">Hãy thêm trải nghiệm đầu tiên của bạn để du khách có thể khám phá và đặt chỗ.</p>
+          <div class="state-actions">
+            <button id="btnEmptyAdd" class="btn btn-primary" type="button">+ Thêm trải nghiệm đầu tiên</button>
+          </div>
+        </div>
+
+        <!-- TRẠNG THÁI 4: TÌM KIẾM / LỌC KHÔNG CÓ KẾT QUẢ -->
+        <div id="noResultState" class="card state-card" hidden>
+          <div class="state-icon state-icon-empty">⌕</div>
+          <h2 class="state-title">Không tìm thấy trải nghiệm phù hợp</h2>
+          <p class="state-desc">Thử đổi từ khóa tìm kiếm hoặc xóa bộ lọc trạng thái hiện tại.</p>
+          <div class="state-actions">
+            <button id="btnClearFilter" class="btn btn-light" type="button">Xóa bộ lọc</button>
+          </div>
+        </div>
+
+        <!-- DANH SÁCH THẬT: các dòng trải nghiệm được render bằng JS -->
+        <div id="expList" class="exp-list" hidden></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ==================== MODAL THÊM / SỬA TRẢI NGHIỆM ====================
+       Chính là form "Thông tin trải nghiệm" trong mockup, bật lên dạng Modal.
+       Gồm đủ các trường: tên, loại, giá, sức chứa, mô tả (+AI), ngày, khung giờ -->
+  <div class="modal-overlay" id="formModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="formModalTitle">
+      <header class="modal-head">
+        <h2 id="formModalTitle" class="modal-title">Thêm trải nghiệm</h2>
+        <button class="icon-btn" type="button" data-close-modal="formModal" aria-label="Đóng">×</button>
+      </header>
+
+      <form id="expForm" novalidate>
+        <div class="form-grid">
+          <!-- Tên trải nghiệm -->
+          <div class="field">
+            <label class="field-label" for="fName">Tên trải nghiệm</label>
+            <input class="control" id="fName" type="text" placeholder="VD: Du thuyền ngắm vịnh" />
+            <p class="field-error" id="errName" hidden></p>
+          </div>
+
+          <!-- Loại trải nghiệm -->
+          <div class="field">
+            <label class="field-label" for="fType">Loại</label>
+            <select class="control select" id="fType">
+              <option value="">— Chọn loại —</option>
+              <option value="Du thuyền">Du thuyền</option>
+              <option value="Làng cổ">Làng cổ</option>
+              <option value="Homestay">Homestay</option>
+              <option value="Nghỉ dưỡng">Nghỉ dưỡng</option>
+              <option value="Ẩm thực">Ẩm thực</option>
+              <option value="Trekking">Trekking</option>
+            </select>
+            <p class="field-error" id="errType" hidden></p>
+          </div>
+
+          <!-- Giá bán -->
+          <div class="field">
+            <label class="field-label" for="fPrice">Giá</label>
+            <input class="control" id="fPrice" type="number" min="0" step="50000" placeholder="VD: 1200000" />
+            <p class="field-hint">Đơn vị: VNĐ / người</p>
+            <p class="field-error" id="errPrice" hidden></p>
+          </div>
+
+          <!-- Sức chứa -->
+          <div class="field">
+            <label class="field-label" for="fCapacity">Sức chứa</label>
+            <input class="control" id="fCapacity" type="number" min="1" step="1" placeholder="VD: 20" />
+            <p class="field-hint">Đơn vị: người / đoàn</p>
+            <p class="field-error" id="errCapacity" hidden></p>
+          </div>
+
+          <!-- Mô tả trải nghiệm (kèm trợ lý AI gợi ý) -->
+          <div class="field field-full">
+            <div class="field-label-row">
+              <label class="field-label" for="fDesc">Mô tả</label>
+              <!-- Nút kích hoạt luồng AI: xử lý -> kết quả -> giải thích -> hành động -->
+              <button class="btn btn-ai" id="btnAi" type="button">✨ AI gợi ý mô tả</button>
+            </div>
+            <textarea class="control" id="fDesc" rows="3" placeholder="Trải nghiệm ngắm cảnh và dùng bữa trên du thuyền..."></textarea>
+            <p class="field-error" id="errDesc" hidden></p>
+
+            <!-- KHUNG AI: mô phỏng luồng tương tác trí tuệ nhân tạo -->
+            <div class="ai-panel" id="aiPanel" hidden>
+              <div class="ai-head">
+                <span class="ai-logo">✨</span>
+                <strong>Trợ lý AI TripWeave</strong>
+              </div>
+
+              <!-- Bước [AI đang xử lý]: spinner + thông báo -->
+              <div class="ai-loading" id="aiLoading" hidden>
+                <span class="spinner" aria-hidden="true"></span>
+                <span>AI đang phân tích loại hình, sức chứa và phân khúc giá...</span>
+              </div>
+
+              <!-- Bước [kết quả] + [giải thích lý do] + [các nút hành động] -->
+              <div class="ai-result" id="aiResult" hidden>
+                <p class="ai-text" id="aiText"></p>
+                <div class="ai-explain">
+                  <p class="ai-explain-title">Vì sao AI đề xuất như vậy?</p>
+                  <ul class="ai-reasons" id="aiReasons"></ul>
+                </div>
+                <div class="ai-actions">
+                  <button class="btn btn-primary btn-sm" id="aiAccept" type="button">Chấp nhận</button>
+                  <button class="btn btn-light btn-sm" id="aiEdit" type="button">Sửa</button>
+                  <button class="btn btn-light btn-sm" id="aiRegen" type="button">Tạo lại</button>
+                  <button class="btn btn-ghost btn-sm" id="aiReject" type="button">Từ chối</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ngày hoạt động -->
+          <div class="field">
+            <label class="field-label" for="fDays">Ngày hoạt động</label>
+            <input class="control" id="fDays" type="text" placeholder="VD: Thứ 2 – Chủ nhật" />
+            <p class="field-error" id="errDays" hidden></p>
+          </div>
+
+          <!-- Khung giờ hoạt động -->
+          <div class="field">
+            <label class="field-label" for="fHours">Khung giờ</label>
+            <input class="control" id="fHours" type="text" placeholder="VD: 08:00 – 18:00" />
+            <p class="field-error" id="errHours" hidden></p>
+          </div>
+        </div>
+
+        <!-- Chân modal: hủy + lưu (nút chính đặt bên phải như mockup) -->
+        <footer class="modal-foot">
+          <button class="btn btn-ghost" type="button" data-close-modal="formModal">Hủy</button>
+          <button class="btn btn-primary" id="btnSave" type="submit">Lưu trải nghiệm</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL "QUẢN LÝ" 1 TRẢI NGHIỆM ====================
+       Xem chi tiết + đổi trạng thái hoạt động + lưu trữ + xóa -->
+  <div class="modal-overlay" id="manageModal" hidden>
+    <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="manageModalTitle">
+      <header class="modal-head">
+        <h2 id="manageModalTitle" class="modal-title">Quản lý trải nghiệm</h2>
+        <button class="icon-btn" type="button" data-close-modal="manageModal" aria-label="Đóng">×</button>
+      </header>
+      <div class="modal-body" id="manageBody"><!-- JS render thông tin chi tiết --></div>
+      <footer class="modal-foot modal-foot-col">
+        <button class="btn btn-warning-light" id="btnToggleStatus" type="button">Tạm ngưng hoạt động</button>
+        <button class="btn btn-ghost" id="btnArchive" type="button">Lưu trữ</button>
+        <button class="btn btn-danger-light" id="btnDelete" type="button">Xóa vĩnh viễn</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL XÁC NHẬN XÓA ====================
+       Bước chặn cuối trước khi xóa vĩnh viễn (tránh thao tác nhầm) -->
+  <div class="modal-overlay" id="confirmModal" hidden>
+    <div class="modal modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <header class="modal-head">
+        <h2 id="confirmTitle" class="modal-title">Xóa trải nghiệm?</h2>
+        <button class="icon-btn" type="button" data-close-modal="confirmModal" aria-label="Đóng">×</button>
+      </header>
+      <div class="modal-body">
+        <p class="confirm-msg" id="confirmMsg"></p>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn btn-ghost" id="btnConfirmNo" type="button">Hủy</button>
+        <button class="btn btn-danger" id="btnConfirmYes" type="button">Xóa vĩnh viễn</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Khung chứa toast thông báo (thành công / lỗi / thông tin) -->
+  <div id="toastWrap" class="toast-wrap" aria-live="polite"></div>
+
+  <!-- JS riêng của trang: toàn bộ logic tương tác + dữ liệu mẫu + LocalStorage -->
+  <script src="partner-experience-management.js"></script>
+</body>
+</html>

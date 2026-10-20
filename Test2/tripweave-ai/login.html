@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gradient-to-br from-slate-100 via-white to-emerald-50 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden grid md:grid-cols-2 fade-up">
+    <!-- Brand panel -->
+    <div class="bg-slate-900 text-white p-8 flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-emerald-500/20"></div>
+      <div class="absolute -bottom-20 -left-10 w-64 h-64 rounded-full bg-violet-500/10"></div>
+      <div class="relative">
+        <div class="flex items-center gap-2.5">
+          <span class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-lg"><i class="fa-solid fa-route"></i></span>
+          <span class="font-bold text-xl">TripWeave <span class="text-emerald-400">AI</span></span>
+        </div>
+        <h2 class="mt-8 text-2xl font-bold leading-snug">Xây hành trình du lịch theo sở thích</h2>
+        <p class="mt-3 text-sm text-slate-300">Nền tảng kết nối du khách, hướng dẫn viên bản địa và đối tác địa phương với trợ lý AI tạo lịch trình cá nhân hóa.</p>
+        <ul class="mt-6 space-y-3 text-sm">
+          <li class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i></span>AI tạo lịch trình 5 ngày theo sở thích &amp; ngân sách</li>
+          <li class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-violet-500/20 text-violet-400 flex items-center justify-center"><i class="fa-solid fa-person-hiking"></i></span>Hướng dẫn viên bản địa review từng lịch trình</li>
+          <li class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center"><i class="fa-solid fa-handshake"></i></span>Đối tác địa phương cung cấp trải nghiệm xác thực</li>
+        </ul>
+      </div>
+      <p class="relative mt-8 text-[11px] text-slate-400">BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</p>
+    </div>
+    <!-- Form panel -->
+    <div class="p-8">
+      <h1 class="text-2xl font-bold text-slate-900">Đăng nhập</h1>
+      <p class="mt-1 text-sm text-slate-500">Chào mừng bạn quay lại TripWeave AI.</p>
+      <form id="login-form" class="mt-6 space-y-4" novalidate>
+        <div>
+          <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+          <input type="email" id="email" autocomplete="email" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition" placeholder="ban@tripweave.ai">
+          <p id="email-error" class="mt-1 text-xs text-red-500 hidden"></p>
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Mật khẩu</label>
+          <input type="password" id="password" autocomplete="current-password" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition" placeholder="••••••">
+          <p id="password-error" class="mt-1 text-xs text-red-500 hidden"></p>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-lg text-white text-sm font-semibold bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 shadow-md transition">
+          <i class="fa-solid fa-right-to-bracket mr-1.5"></i>Đăng nhập
+        </button>
+        <div class="flex items-center justify-between text-sm">
+          <a href="forgot-password.html" class="text-violet-600 hover:underline">Quên mật khẩu?</a>
+          <a href="register.html" class="text-slate-600 hover:underline">Tạo tài khoản mới</a>
+        </div>
+      </form>
+      <div class="mt-6">
+        <div class="flex items-center gap-3"><span class="flex-1 h-px bg-slate-200"></span><span class="text-xs text-slate-400 font-medium">Hoặc đăng nhập nhanh theo vai trò</span><span class="flex-1 h-px bg-slate-200"></span></div>
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          <button type="button" onclick="twQuickLogin('traveler')" class="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-sm font-medium text-slate-700 transition"><span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center"><i class="fa-solid fa-compass"></i></span>Du khách</button>
+          <button type="button" onclick="twQuickLogin('guide')" class="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 text-sm font-medium text-slate-700 transition"><span class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center"><i class="fa-solid fa-person-hiking"></i></span>Hướng dẫn viên</button>
+          <button type="button" onclick="twQuickLogin('partner')" class="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 hover:border-violet-400 hover:bg-violet-50 text-sm font-medium text-slate-700 transition"><span class="w-8 h-8 rounded-lg bg-violet-500 text-white flex items-center justify-center"><i class="fa-solid fa-handshake"></i></span>Đối tác</button>
+          <button type="button" onclick="twQuickLogin('admin')" class="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 hover:border-amber-400 hover:bg-amber-50 text-sm font-medium text-slate-700 transition"><span class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center"><i class="fa-solid fa-shield-halved"></i></span>Quản trị</button>
+        </div>
+        <p class="mt-3 text-[11px] text-slate-400 text-center">Tài khoản demo: traveler@tripweave.ai / guide@tripweave.ai / partner@tripweave.ai / admin@tripweave.ai – mật khẩu 123456</p>
+      </div>
+    </div>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      const form = document.getElementById('login-form');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      function setError(id, msg) {
+        const el = document.getElementById(id);
+        el.textContent = msg;
+        el.classList.toggle('hidden', !msg);
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        let ok = true;
+        setError('email-error', ''); setError('password-error', '');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email-error', 'Email không hợp lệ.'); ok = false; }
+        if (password.length < 6) { setError('password-error', 'Mật khẩu tối thiểu 6 ký tự.'); ok = false; }
+        if (!ok) return;
+        const user = twLogin(email, password);
+        if (!user) { showToast('Email hoặc mật khẩu không đúng!', 'error'); return; }
+        showToast('Xin chào ' + user.name + '! Đang mở bảng điều khiển...');
+        setTimeout(function () { location.href = twRoleHome(user.role); }, 700);
+      });
+    })();
+  </script>
+</body>
+</html>
+

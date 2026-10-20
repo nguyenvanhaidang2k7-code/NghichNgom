@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 – Không có quyền truy cập | TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+  <div class="absolute top-10 right-10 w-72 h-72 rounded-full bg-red-500/10 blur-2xl"></div>
+  <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-amber-500/10 blur-2xl"></div>
+  <div class="relative text-center fade-up">
+    <span class="inline-flex w-20 h-20 rounded-3xl bg-red-500 text-white items-center justify-center text-4xl shadow-xl"><i class="fa-solid fa-lock"></i></span>
+    <p class="mt-6 text-7xl font-black text-white tracking-tight">403</p>
+    <h1 class="mt-2 text-xl font-bold text-white">Không có quyền truy cập</h1>
+    <p class="mt-2 text-sm text-slate-400 max-w-md mx-auto">Trang này thuộc vai trò khác. Vui lòng quay lại bảng điều khiển của bạn hoặc chuyển vai trò phù hợp.</p>
+    <p id="current-role" class="mt-3 text-xs text-slate-500"></p>
+    <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
+      <a id="home-link" href="login.html" class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold shadow-lg transition"><i class="fa-solid fa-house mr-1.5"></i>Return to Dashboard</a>
+      <button type="button" onclick="twLogout()" class="px-5 py-2.5 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-800 text-sm font-medium transition"><i class="fa-solid fa-right-from-bracket mr-1.5"></i>Đăng xuất</button>
+    </div>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      const user = twCurrentUser();
+      const roleEl = document.getElementById('current-role');
+      const homeEl = document.getElementById('home-link');
+      if (user && TW_ROLE_META[user.role]) {
+        roleEl.textContent = 'Vai trò hiện tại của bạn: ' + TW_ROLE_META[user.role].label + ' (' + user.email + ')';
+        homeEl.href = twRoleHome(user.role);
+      } else {
+        roleEl.textContent = 'Bạn chưa đăng nhập.';
+      }
+    })();
+  </script>
+</body>
+</html>

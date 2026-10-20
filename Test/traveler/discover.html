@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khám phá - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', warning: '#F97316', purple: '#8B5CF6', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/mock-data.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button>
+                <div class="relative hidden sm:block">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 outline-none w-64">
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-gray-500"><i class="fa-regular fa-bell text-xl"></i></button>
+                <div class="h-8 w-px bg-gray-200 mx-2"></div>
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <div class="text-right hidden md:block">
+                        <div class="text-sm font-semibold text-gray-900" id="topbar-user-name">Đang tải...</div>
+                        <div class="text-xs" id="topbar-user-role">Role</div>
+                    </div>
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full border-2 border-transparent group-hover:border-accent">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 hidden z-50" id="user-dropdown">
+                        <div class="p-2">
+                            <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">Chuyển đổi vai trò</div>
+                            <button onclick="Auth.quickLogin('traveler')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><i class="fa-solid fa-suitcase w-4"></i> Du khách</button>
+                            <button onclick="Auth.quickLogin('guide')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><i class="fa-solid fa-map w-4"></i> HDV</button>
+                            <button onclick="Auth.quickLogin('partner')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><i class="fa-solid fa-store w-4"></i> Đối tác</button>
+                            <button onclick="Auth.quickLogin('admin')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><i class="fa-solid fa-shield w-4"></i> Admin</button>
+                            <div class="h-px bg-gray-100 my-2"></div>
+                            <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"><i class="fa-solid fa-sign-out-alt w-4"></i> Đăng xuất</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Khám phá điểm đến</h1>
+                        <p class="text-gray-500 text-sm">Tìm kiếm nguồn cảm hứng cho chuyến đi tiếp theo của bạn.</p>
+                    </div>
+                    <a href="trip-planner.html" class="bg-accent hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Tạo lịch trình AI
+                    </a>
+                </div>
+
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                    <button class="bg-primary text-white px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap">Tất cả</button>
+                    <button class="bg-white border border-gray-200 text-gray-600 hover:border-accent hover:text-accent px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition">Thiên nhiên</button>
+                    <button class="bg-white border border-gray-200 text-gray-600 hover:border-accent hover:text-accent px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition">Văn hóa</button>
+                    <button class="bg-white border border-gray-200 text-gray-600 hover:border-accent hover:text-accent px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition">Ẩm thực</button>
+                    <button class="bg-white border border-gray-200 text-gray-600 hover:border-accent hover:text-accent px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition">Nghỉ dưỡng</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="places-grid"></div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('places-grid');
+            if(MockDB && MockDB.places) {
+                MockDB.places.forEach(place => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer group flex flex-col h-full';
+                    card.onclick = () => window.location.href = 'place-detail.html?id=' + place.id;
+                    card.innerHTML = `
+                        <div class="relative h-48 overflow-hidden shrink-0">
+                            <img src="${place.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-xs font-semibold px-2 py-1 rounded-md text-gray-800 shadow-sm">${place.category}</div>
+                        </div>
+                        <div class="p-4 flex flex-col flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-bold text-gray-900 group-hover:text-accent transition truncate pr-2">${place.name}</h3>
+                                <div class="flex items-center text-sm font-medium text-gray-700 bg-gray-50 px-1.5 py-0.5 rounded shrink-0">
+                                    <i class="fa-solid fa-star text-yellow-400 text-xs mr-1"></i> ${place.rating}
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-500 line-clamp-2 mb-3 flex-1">${place.desc}</p>
+                            <div class="flex items-center justify-between mt-auto">
+                                <div class="text-sm font-semibold text-accent">${place.price}</div>
+                                <button class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-2.5 py-1.5 rounded transition" onclick="event.stopPropagation();">Thêm</button>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

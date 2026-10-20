@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ngọc ơi, đi chơi với mình nhé! 💛</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI","Comic Sans MS","Chalkboard SE",system-ui,sans-serif;
+    overflow-x:hidden; color:#6b4f3f;
+  }
+  /* ---------- Bầu trời ---------- */
+  .scene{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#fff6fb, #ffe9f4 32%, #e6f9ff 62%, #dff6ff)}
+  .sun{
+    position:absolute;top:5%;right:7%;width:90px;height:90px;border-radius:50%;
+    background:radial-gradient(circle,#fff7b0 38%,#ffe27a 68%,rgba(255,214,90,0) 76%);
+    box-shadow:0 0 60px 22px rgba(255,224,130,.6);animation:bob 5s ease-in-out infinite;
+  }
+  .cloud{position:absolute;background:#fff;border-radius:60px;opacity:.92;animation:drift 26s linear infinite}
+  .cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+  .cloud.c1{top:9%;width:130px;height:38px}.cloud.c1::before{width:56px;height:56px;top:-24px;left:18px}.cloud.c1::after{width:40px;height:40px;top:-15px;left:72px}
+  .cloud.c2{top:25%;animation-delay:-14s;width:100px;height:30px}.cloud.c2::before{width:44px;height:44px;top:-18px;left:16px}.cloud.c2::after{width:32px;height:32px;top:-11px;left:56px}
+  /* ---------- Bãi cỏ ---------- */
+  .ground{
+    position:fixed;left:0;right:0;bottom:0;height:32vh;z-index:-1;
+    background:
+      radial-gradient(circle at 20% 40%,rgba(255,255,255,.5) 2px,transparent 3px) 0 0/42px 42px,
+      radial-gradient(circle at 70% 30%,rgba(255,255,255,.4) 2px,transparent 3px) 0 0/56px 56px,
+      linear-gradient(180deg,#b7e4a5,#8fd66f 55%,#6bbf53);
+    border-top:6px dashed rgba(255,255,255,.55);
+  }
+  .flowers{position:fixed;left:0;right:0;bottom:0;height:34vh;z-index:0;pointer-events:none}
+  .flower{position:absolute}
+  .flower .bloom{position:absolute;left:50%;transform:translateX(-50%)}
+  .flower .leaf{position:absolute;width:16px;height:10px;background:#8fd66a;border-radius:50% 50% 50% 0}
+  /* ---------- Thẻ lời tỏ tình ---------- */
+  .card{
+    position:relative;z-index:5;max-width:600px;width:92%;margin:clamp(34px,8vh,90px) auto 0;background:rgba(255,255,255,.78);
+    backdrop-filter:blur(7px);border-radius:32px;padding:26px 22px 30px;text-align:center;
+    box-shadow:0 18px 50px rgba(255,123,172,.32),0 5px 20px rgba(120,60,40,.12);
+    border:3px solid #fff;animation:pop .7s cubic-bezier(.2,1.5,.4,1) forwards;
+  }
+  .bear{font-size:66px;margin:0 auto 4px;animation:wiggle 3s ease-in-out infinite;display:block}
+  h1{font-size:clamp(1.45rem,4.5vw,2.1rem);line-height:1.3;margin-bottom:8px}
+  h1 .name{color:#ff5fa2}
+  p.sub{color:#a07a63;font-size:clamp(.92rem,3vw,1.02rem);margin-bottom:6px}
+  .date{
+    display:inline-block;margin:10px auto 14px;background:linear-gradient(135deg,#fff3b8,#ffe27a);
+    border:2px dashed #f0a83a;color:#8a5a12;font-weight:700;padding:7px 18px;border-radius:999px;font-size:1rem;
+    animation:bob 3s ease-in-out infinite;
+  }
+  .from{font-size:.8rem;color:#c69a86;margin-top:14px}
+  /* ---------- Nút ---------- */
+  .btn-row{position:relative;margin-top:16px;min-height:70px}
+  .btn{
+    font-size:clamp(1rem,3vw,1.12rem);font-weight:700;font-family:inherit;border:none;cursor:pointer;
+    border-radius:999px;padding:14px 32px;margin:4px 6px;box-shadow:0 6px 0 rgba(0,0,0,.14),0 8px 18px rgba(0,0,0,.12);
+    transition:transform .15s,box-shadow .15s,background .2s;
+  }
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.14)}
+  .yes{background:linear-gradient(180deg,#ff8fc2,#ff6fae);color:#fff}
+  .yes:hover{background:linear-gradient(180deg,#ffa0cd,#ff7fb8);transform:scale(1.06)}
+  #noBtn{position:absolute;background:linear-gradient(180deg,#dcdcdc,#cacaca);color:#666}
+  #noBtn.teleport{transition:left .4s ease,top .4s ease}
+  .cute-note{margin-top:14px;font-size:.95rem;color:#ff4f94;font-weight:600;min-height:24px}
+  .cute-note.big{font-size:1.12rem}
+  /* ---------- Hiệu ứng ---------- */
+  .heart{position:fixed;bottom:-24px;z-index:6;pointer-events:none;animation:floatUp linear forwards}
+  .bee{position:fixed;z-index:3;pointer-events:none;will-change:transform}
+  .bee .b{position:relative;width:34px;height:30px}
+  .bee .body{position:absolute;top:4px;left:0;width:34px;height:23px;border-radius:50%;background:repeating-linear-gradient(90deg,#3a3a3a 0 6px,#ffd23f 6px 12px)}
+  .bee .wing{position:absolute;top:-7px;left:6px;width:22px;height:16px;background:rgba(255,255,255,.78);border-radius:60% 40% 60% 40%}
+  .bee .wing2{position:absolute;top:1px;left:17px;width:17px;height:12px;background:rgba(255,255,255,.66);border-radius:50%;animation:flap .15s ease-in-out infinite alternate}
+  .bee .eye{position:absolute;top:8px;left:4px;width:6px;height:6px;background:#222;border-radius:50%}
+  .bee .smile{position:absolute;top:14px;left:3px;width:7px;height:4px;border-bottom:2px solid #222;border-radius:50%}
+  .bub{
+    position:fixed;background:#fff;border:2px solid #ffd23f;border-radius:12px;padding:3px 9px;font-size:.8rem;
+    color:#8a5a12;z-index:9;pointer-events:none;box-shadow:0 3px 8px rgba(0,0,0,.14);animation:bob 1.2s infinite;
+  }
+  @keyframes flap{from{transform:rotate(-12deg)}to{transform:rotate(14deg)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes drift{from{transform:translateX(-140vw)}to{transform:translateX(140vw)}}
+  @keyframes pop{from{transform:scale(.4) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  @keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+  @keyframes floatUp{0%{transform:translateY(0) scale(.6);opacity:1}100%{transform:translateY(-112vh) scale(1.2) rotate(22deg);opacity:0}}
+  @keyframes bubble{from{transform:translateY(2px)}to{transform:translateY(-3px)}}
+/* ---------- VƯỜN HOA NỞ DẦN khi đồng ý ---------- */
+  .bloomfield{position:fixed;left:0;right:0;bottom:0;height:46vh;z-index:4;pointer-events:none;overflow:hidden}
+  .bloom-title{
+    position:fixed;left:50%;bottom:28%;transform:translateX(-50%) scale(.6);
+    z-index:5;background:rgba(255,255,255,.9);border:3px solid #fff;border-radius:999px;
+    padding:10px 22px;font-size:1.15rem;color:#e14e9a;font-weight:800;
+    box-shadow:0 10px 26px rgba(255,123,172,.4);opacity:0;pointer-events:none;
+  }
+  .bloom-title.show{animation:titleIn .8s cubic-bezier(.2,1.5,.4,1) forwards}
+  .gfi{position:absolute;bottom:0;transform-origin:50% 100%}
+  .gfi .gstem{
+    position:absolute;bottom:0;left:50%;width:3px;border-radius:2px;
+    background:linear-gradient(#7cd368,#3f9d47);transform:scaleY(0);transform-origin:50% 100%;
+    transition:transform 1.1s cubic-bezier(.3,.9,.4,1);
+  }
+  .gfi .gbloom{
+    position:absolute;transform-origin:50% 100%;transform:scale(0) rotate(-40deg);
+    transition:transform .85s cubic-bezier(.2,1.6,.4,1);
+  }
+  .gfi .gleaf{
+    position:absolute;width:16px;height:10px;background:#8fd66a;border-radius:50% 50% 50% 0;
+    transform:scaleY(0);transform-origin:50% 100%;transition:transform .7s ease;
+  }
+  .bloomfield.on .gfi .gstem{transform:scaleY(1)}
+  .bloomfield.on .gfi .gbloom{transform:scale(1) rotate(0deg)}
+  .bloomfield.on .gfi .gleaf{transform:scaleY(1)}
+  @keyframes titleIn{0%{opacity:0;transform:translateX(-50%) scale(.5)}60%{opacity:1;transform:translateX(-50%) scale(1.12)}100%{opacity:1;transform:translateX(-50%) scale(1)}}
+</style>
+</head>
+<body>
+
+  <!-- BẦU TRỜI + KHU VƯỜN -->
+  <div class="scene">
+    <div class="sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+  </div>
+  <div class="ground"></div>
+  <div class="flowers" id="flowers"></div>
+  <div class="bloom-title" id="bloomTitle">Ngọc nhỏ kìa… cả vườn hoa thơm lây vì chọn ĐỒNG Ý nè 🌷💛</div>
+  <div class="bloomfield" id="bloomfield"></div>
+
+  <!-- THẺ TỎ TÌNH -->
+  <main class="card">
+    <span class="bear">🐻</span>
+    <h1>🌷 Ngọc ơi, đi chơi với mình <span class="name">ngày 8/10</span> nhé!</h1>
+    <p class="sub">Mình hổng có lạc đâu nè… mình thật lòng hẹn Ngọc đi chơi á 🥺</p>
+    <div class="date">🗓️ Hẹn Ngọc: <b>8/10</b> · Đi ăn kem & dạo khu vườn 💛</div>
+
+    <p class="cute-note" id="note">"Ngọc ấn ĐỒNG Ý là Ngọc chịu mình rồi nha 😝"</p>
+
+    <div class="btn-row">
+      <button class="btn yes" id="yesBtn" onclick="sayYes()">Đồng ý 💛 đi chơi với mình</button>
+      <button class="btn no" id="noBtn" onclick="sayNo(this)">Hông 🐻</button>
+    </div>
+
+    <p class="from">— từ một chú ong nhớ Ngọc nhất khu vườn 🐝💛</p>
+  </main>
+
+<script>
+(function(){
+  /* ============================================
+     VẼ HOA TRONG VƯỜN (SVG)
+     ============================================ */
+  const box=document.getElementById('flowers');
+  const petals=['#ff8fc2','#ffffff','#ffe9d2','#ffe27a','#ffb07a','#b8e7ff'];
+  for(let i=0;i<20;i++){
+    const f=document.createElement('div');
+    f.className='flower';
+    const s=22+Math.random()*24;            // cỡ hoa
+    const h=s*0.7+16+Math.random()*18;      // cao cành
+    const c1=petals[(Math.random()*petals.length)|0];
+    const c2='#ffffff';
+    const bloom=document.createElement('span');
+    bloom.className='bloom';
+    bloom.style.top=(-s*0.5)+'px';
+    bloom.innerHTML=`<svg width="${s}" height="${s}" viewBox="0 0 40 40">
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c1}"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c2}" transform="rotate(72 20 22)"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c1}" transform="rotate(144 20 22)"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c2}" transform="rotate(216 20 22)"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c1}" transform="rotate(288 20 22)"/>
+       <circle cx="20" cy="22" r="6" fill="#ffd23f"/>
+    </svg>`;
+    const stem=document.createElement('span');
+    stem.style.cssText='position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:3px;height:'+h+'px;background:#58c24f;border-radius:2px;';
+    const leaf=document.createElement('span');
+    leaf.className='leaf';
+    leaf.style.bottom=(h*0.5)+'px';
+    leaf.style.left='calc(50% - 9px)';
+    f.appendChild(stem); f.appendChild(bloom); f.appendChild(leaf);
+    f.style.left=(Math.random()*innerWidth)+'px';
+    f.style.bottom=(Math.random()*24)+'px';
+    box.appendChild(f);
+  }
+
+  /* ============================================
+     ĐÀN ONG BAY LƯỢN QUANH VƯỜN
+     ============================================ */
+  const beeEls=[],beeState=[];
+  for(let i=0;i<13;i++){
+    const n=document.createElement('span');
+    n.className='bee';
+    n.innerHTML='<div class="b"><div class="wing"></div><div class="wing2"></div><div class="body"></div><div class="eye"></div><div class="smile"></div></div>';
+    document.body.appendChild(n);
+    beeEls.push(n);
+    beeState.push({
+      x:Math.random()*innerWidth,
+      y:16+Math.random()*innerHeight*0.5,
+      a:Math.random()*Math.PI*2,
+      sp:0.5+Math.random()*0.8
+    });
+  }
+  function beeLoop(){
+    const W=innerWidth,H=innerHeight;
+    beeEls.forEach((b,i)=>{
+      const s=beeState[i];
+      s.a+=(Math.random()-0.5)*0.9;
+      s.x+=Math.cos(s.a)*s.sp;
+      s.y+=Math.sin(s.a)*s.sp*0.6;
+      if(s.x<0){s.x=0;s.a=Math.PI+(Math.random()-0.5)*1.2;}
+      if(s.x>W-40){s.x=W-40;s.a=(Math.random()-0.5)*1.2;}
+      if(s.y<8){s.y=8;s.a=Math.PI/2+(Math.random()-0.5)*1.4;}
+      if(s.y>H*0.56){s.y=H*0.56;s.a=-Math.PI/2+(Math.random()-0.5)*1.4;}
+      b.style.transform='translate('+s.x+'px,'+s.y+'px) scaleX('+(Math.cos(s.a)>=0?1:-1)+')';
+    });
+    requestAnimationFrame(beeLoop);
+  }
+  requestAnimationFrame(beeLoop);
+  /* ============================================
+     LỜI ONG LẢM NHẢM (trêu Ngọc)
+     ============================================ */
+  const chatter=['zzzz…','on on on 🐝','đi chơi đi mà…','Ngọccc ơiii','nhớ Ngọc lắm 💛','đồng ý đi nè 😊'];
+  setInterval(()=>{
+    if(Math.random()<0.5){
+      const s=beeState[(Math.random()*beeState.length)|0];
+      const b=document.createElement('div');
+      b.className='bub';
+      b.textContent=chatter[(Math.random()*chatter.length)|0];
+      b.style.left=(s.x-16)+'px';
+      b.style.top=(s.y-26)+'px';
+      document.body.appendChild(b);
+      setTimeout(()=>b.remove(),1700);
+    }
+  },2400);
+})();
+
+/* ============================================
+   NÚT "KHÔNG" CHẠY TRỐN (trêu đùa)
+   ============================================ */
+let n=0;
+const noBtn=document.getElementById('noBtn');
+const note=document.getElementById('note');
+const msgs=[
+  'Hứiiii… nút Không chạy mất rồi 😝',
+  'Ngọc đừng mà… ấn ĐỒNG Ý đi 🥺',
+  'Ha ha, nút lại bỏ chạy nữa rồi 🤭',
+  'Ngọc ơi, đừng từ chối "ong" này mà 🐝💔',
+  'Nút Không cứ trốn… 8/10 mình vẫn đợi nè!',
+  'Thôi Ngọc ơi, chọn ĐỒNG Ý đi kể 💛',
+];
+function sayNo(){
+  n++;
+  note.textContent=msgs[Math.min(n-1,msgs.length-1)];
+  if(n>=3)noBtn.textContent='Thôi nuộc 😂';
+  if(n>=6)noBtn.textContent='Hết chạy nổi rồi… 🐛';
+  noBtn.classList.add('teleport');
+  const pad=18,mx=innerWidth-noBtn.offsetWidth-pad,my=innerHeight-noBtn.offsetHeight-pad;
+  noBtn.style.left=(pad+Math.random()*mx)+'px';
+  noBtn.style.top=(pad+Math.random()*my*0.85)+'px';
+  document.querySelector('.card').animate(
+    [{transform:'rotate(-1.2deg)'},{transform:'rotate(1.2deg)'},{transform:'rotate(0)'}],
+    {duration:150}
+  );
+}
+
+/* ============================================
+   ĐỒNG Ý → BUNG TIM + PHÁO HOA
+   ============================================ */
+const yesBtn=document.getElementById('yesBtn');
+function sayYes(){
+  if(yesBtn.disabled)return;
+  yesBtn.disabled=true;
+  note.classList.add('big');
+  note.textContent='Yayyy!!! 🎉 Ngọc chịu mình rồi! Hẹn 8/10 nha, cả vườn + đàn ong đi chung với mình 🐝💛';
+  growField();
+  for(let i=0;i<80;i++)setTimeout(heart,i*26);
+  for(let i=0;i<32;i++)setTimeout(popdot,i*55);
+}
+function growField(){
+  const field=document.getElementById('bloomfield');
+  const title=document.getElementById('bloomTitle');
+  if(field.dataset.done)return;
+  field.dataset.done='1';
+  const petals=['#ff8fc2','#ff6fae','#ffffff','#ffd5ff','#ffe27a','#ffb07a','#7dd8ff','#ff5fa2'];
+  const W=innerWidth,H=innerHeight*0.46;
+  for(let i=0;i<36;i++){
+    const s=24+Math.random()*34;            // cỡ bông
+    const h=30+Math.random()*70;            // cao cành
+    const c1=petals[(Math.random()*petals.length)|0];
+    const c2='#ffffff';
+    const g=document.createElement('span');
+    g.className='gfi';
+
+    const stem=document.createElement('span');
+    stem.className='gstem';
+    stem.style.cssText='left:50%;width:3px;height:'+s+'px;';
+
+    const bloom=document.createElement('span');
+    bloom.className='gbloom';
+    bloom.style.top=(-s)+'px';
+    bloom.innerHTML=`<svg width="${s}" height="${s}" viewBox="0 0 40 40">
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c1}"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c2}" transform="rotate(72 20 22)"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c1}" transform="rotate(144 20 22)"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c2}" transform="rotate(216 20 22)"/>
+       <ellipse cx="20" cy="8" rx="6" ry="9" fill="${c1}" transform="rotate(288 20 22)"/>
+       <circle cx="20" cy="22" r="6" fill="#ffd23f"/>
+    </svg>`;
+
+    const leaf=document.createElement('span');
+    leaf.className='gleaf';
+    leaf.style.bottom=(h*0.5)+'px';
+    leaf.style.left='calc(50% - 8px)';
+
+    // độ trễ riêng từng bông → "nở dần" lần lượt
+    const sd=Math.random()*0.5;             // cành vươn ra trước
+    const bd=sd+0.5+Math.random()*0.9;      // bông xòe ra sau
+    stem.style.transitionDelay=sd+'s';
+    bloom.style.transitionDelay=bd+'s';
+    leaf.style.transitionDelay=sd+'s';
+
+    g.appendChild(stem); g.appendChild(bloom); g.appendChild(leaf);
+    g.style.left=(Math.random()*W)+'px';
+    g.style.bottom='-4px';
+    field.appendChild(g);
+  }
+  // kích hoạt bloom sau khi đã vẽ xong
+  requestAnimationFrame(()=>requestAnimationFrame(()=>field.classList.add('on')));
+  setTimeout(()=>title.classList.add('show'),320);
+}
+function heart(){
+  const h=document.createElement('div');
+  h.className='heart';
+  h.textContent=Math.random()<0.5?'💛':'💖';
+  h.style.left=(Math.random()*100)+'vw';
+  h.style.fontSize=(14+Math.random()*20)+'px';
+  h.style.animationDuration=(3+Math.random()*3)+'s';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6500);
+}
+function popdot(){
+  const colors=['#ff8fc2','#ffd23f','#ff7bac','#6fe08f','#7dd8ff'];
+  const p=document.createElement('div');
+  p.style.cssText='position:fixed;left:50%;top:45%;width:11px;height:11px;border-radius:50%;z-index:8;pointer-events:none;';
+  p.style.background=colors[(Math.random()*colors.length)|0];
+  document.body.appendChild(p);
+  const a=p.animate(
+    [{transform:'translate(-50%,-50%) scale(1)',opacity:1},
+     {transform:'translate('+((Math.random()-0.5)*innerWidth*0.6)+'px,'+((Math.random()-0.5)*innerHeight*0.4)+'px) scale(.3)',opacity:0}],
+    {duration:1100+Math.random()*700,easing:'cubic-bezier(.2,.9,.3,1)'}
+  );
+  a.onfinish=()=>p.remove();
+}
+</script>
+</body>
+</html>

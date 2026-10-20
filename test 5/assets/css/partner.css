@@ -1,0 +1,24 @@
+.experience-row { grid-template-columns: 104px minmax(150px, 1fr) minmax(106px, .55fr) auto; min-height: 80px; }
+.experience-row .placeholder { min-height: 61px; }
+.review-row { grid-template-columns: minmax(130px, .8fr) minmax(180px, 1.3fr) auto; min-height: 87px; }
+.review-score { color: var(--orange); font-weight: 750; }
+.review-copy { margin-top: 7px; color: var(--muted); font-size: 10px; }
+.revenue-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(190px, .7fr); gap: 16px; }
+.revenue-side { display: grid; grid-template-rows: 1fr auto; gap: 16px; }
+.growth-card { min-height: 210px; text-align: center; }
+.growth-number { margin-top: 22px; color: var(--green); font-size: 24px; font-weight: 750; }
+.profile-header { min-height: 108px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 26px; margin-bottom: 16px; }
+.profile-details { min-height: 210px; }
+.service-bullets { display: grid; gap: 27px; padding: 4px 10px; color: #465775; font-size: 11px; }
+.save-row { display: flex; justify-content: flex-end; margin-top: 16px; }
+
+@media (max-width: 760px) {
+  .experience-row, .review-row { grid-template-columns: 1fr auto; }
+  .experience-row > :nth-child(2), .review-row > :nth-child(2) { grid-column: 1; }
+  .experience-row > :nth-child(3), .review-row > :nth-child(3) { grid-column: 2; grid-row: 1; }
+  .revenue-layout { grid-template-columns: 1fr; }
+  .revenue-side { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .profile-header { align-items: flex-start; flex-direction: column; }
+  .save-row { justify-content: stretch; }
+  .save-row .btn { width: 100%; }
+}

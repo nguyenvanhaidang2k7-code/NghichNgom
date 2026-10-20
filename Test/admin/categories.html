@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-900">Quản lý Danh mục</h1>
+                    <button class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium">+ Thêm danh mục</button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
+                        <i class="fa-solid fa-leaf text-green-500 text-2xl mb-2"></i>
+                        <h3 class="font-bold">Thiên nhiên</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
+                        <i class="fa-solid fa-landmark text-yellow-600 text-2xl mb-2"></i>
+                        <h3 class="font-bold">Văn hóa</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
+                        <i class="fa-solid fa-utensils text-orange-500 text-2xl mb-2"></i>
+                        <h3 class="font-bold">Ẩm thực</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
+                        <i class="fa-solid fa-umbrella-beach text-blue-400 text-2xl mb-2"></i>
+                        <h3 class="font-bold">Nghỉ dưỡng</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

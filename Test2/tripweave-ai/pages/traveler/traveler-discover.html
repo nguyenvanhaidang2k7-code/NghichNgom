@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khám phá – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="traveler.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="traveler" data-page="traveler-discover">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6 space-y-6">
+      <!-- Hero -->
+      <section class="rounded-2xl bg-slate-900 text-white p-6 md:p-8 relative overflow-hidden fade-up">
+        <div class="absolute -top-14 -right-14 w-52 h-52 rounded-full bg-emerald-500/20"></div>
+        <div class="absolute -bottom-16 right-40 w-56 h-56 rounded-full bg-violet-500/10"></div>
+        <div class="relative flex flex-col md:flex-row md:items-center gap-4">
+          <div class="flex-1">
+            <p class="text-xs font-semibold uppercase tracking-wider text-emerald-400"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Trợ lý AI du lịch</p>
+            <h1 class="mt-1 text-2xl md:text-3xl font-bold">Xây hành trình theo sở thích của bạn</h1>
+            <p class="mt-2 text-sm text-slate-300 max-w-xl">Trả lời vài câu hỏi ngắn về sở thích, ngân sách và thời gian – AI sẽ tạo lịch trình 5 ngày hoàn chỉnh, có hướng dẫn viên bản địa review từng ngày.</p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <a href="traveler-ai-itinerary.html" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold shadow-lg transition"><i class="fa-solid fa-bolt mr-1.5"></i>Tạo lịch trình AI</a>
+            <a href="traveler-trip-planner.html" class="px-5 py-3 rounded-xl border border-slate-600 hover:bg-slate-800 text-sm font-medium transition">Chuyến đi của tôi</a>
+          </div>
+        </div>
+      </section>
+      <!-- Filters -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-5 fade-up">
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1.5">Tìm kiếm</label>
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input id="f-search" type="text" class="w-full border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition" placeholder="Tên địa điểm, tag...">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1.5">Danh mục</label>
+            <select id="f-category" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500 bg-white transition"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1.5">Khu vực</label>
+            <select id="f-location" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500 bg-white transition"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1.5">Đánh giá tối thiểu</label>
+            <select id="f-rating" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500 bg-white transition">
+              <option value="0">Tất cả</option><option value="4">4.0+ sao</option><option value="4.5">4.5+ sao</option><option value="4.8">4.8+ sao</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <div class="flex-1">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-500 mb-1"><span>Giá tối đa</span><span id="f-budget-label" class="text-emerald-600">2.500.000đ</span></div>
+            <input id="f-budget" type="range" min="0" max="2500000" step="50000" value="2500000" class="tw-range">
+          </div>
+          <button type="button" id="f-reset" class="px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium text-slate-600 hover:bg-slate-100 transition shrink-0"><i class="fa-solid fa-rotate-left mr-1.5"></i>Đặt lại</button>
+        </div>
+      </section>
+      <!-- Places grid -->
+      <section>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-lg font-bold text-slate-900"><i class="fa-solid fa-map-location-dot text-emerald-500 mr-2"></i>Địa điểm nổi bật <span id="places-count" class="text-sm font-medium text-slate-400"></span></h2>
+          <button type="button" id="btn-saved" class="text-sm font-medium text-blue-600 hover:underline"><i class="fa-regular fa-bookmark mr-1"></i>Đã lưu (<span id="saved-count">0</span>)</button>
+        </div>
+        <div id="places-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+        <p id="places-empty" class="hidden text-center text-sm text-slate-400 py-10"><i class="fa-regular fa-face-frown mr-1"></i>Không tìm thấy địa điểm phù hợp với bộ lọc.</p>
+      </section>
+      <!-- Community -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 fade-up">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <h2 class="text-lg font-bold text-slate-900"><i class="fa-solid fa-users text-violet-500 mr-2"></i>Cộng đồng TripWeave</h2>
+          <button type="button" id="btn-share" class="px-4 py-2 rounded-lg bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-pen-nib mr-1.5"></i>Chia sẻ trải nghiệm</button>
+        </div>
+        <div id="community-feed" class="space-y-3"></div>
+      </section>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <!-- Modal: chi tiết địa điểm -->
+  <div id="modal-place" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-place"></div>
+    <div class="tw-modal-panel w-full max-w-lg bg-white rounded-2xl shadow-2xl">
+      <div class="flex items-start justify-between p-5 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <span id="mp-emoji" class="ph-img w-14 h-14 rounded-xl text-3xl"></span>
+          <div>
+            <h3 id="mp-title" class="font-bold text-slate-900 text-lg"></h3>
+            <p id="mp-location" class="text-sm text-slate-500"></p>
+          </div>
+        </div>
+        <button type="button" data-close-modal="modal-place" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div id="mp-meta" class="grid grid-cols-2 gap-3 text-sm"></div>
+        <p id="mp-description" class="text-sm text-slate-600 leading-relaxed"></p>
+        <div id="mp-tags" class="flex flex-wrap gap-1.5"></div>
+      </div>
+      <div class="p-5 border-t border-slate-100 flex gap-2">
+        <button type="button" id="mp-save" class="flex-1 py-2.5 rounded-lg border border-blue-200 text-blue-600 text-sm font-semibold hover:bg-blue-50 transition"><i class="fa-regular fa-bookmark mr-1.5"></i>Lưu địa điểm</button>
+        <button type="button" id="mp-share" class="flex-1 py-2.5 rounded-lg bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-share-nodes mr-1.5"></i>Chia sẻ cộng đồng</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal: chia sẻ trải nghiệm -->
+  <div id="modal-share" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-share"></div>
+    <div class="tw-modal-panel w-full max-w-md bg-white rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between p-5 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900"><i class="fa-solid fa-pen-nib text-violet-500 mr-2"></i>Chia sẻ trải nghiệm</h3>
+        <button type="button" data-close-modal="modal-share" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="share-form" class="p-5 space-y-4">
+        <div>
+          <label for="share-title" class="block text-sm font-medium text-slate-700 mb-1">Tiêu đề</label>
+          <input type="text" id="share-title" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition" placeholder="VD: 3 ngày tuyệt vời ở Hạ Long">
+        </div>
+        <div>
+          <label for="share-place" class="block text-sm font-medium text-slate-700 mb-1">Địa điểm liên quan</label>
+          <select id="share-place" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:border-violet-500 transition"></select>
+        </div>
+        <div>
+          <label for="share-content" class="block text-sm font-medium text-slate-700 mb-1">Nội dung</label>
+          <textarea id="share-content" rows="4" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition resize-none" placeholder="Kể về trải nghiệm của bạn..."></textarea>
+        </div>
+        <p class="text-[11px] text-slate-400"><i class="fa-solid fa-circle-info mr-1"></i>Bài chia sẻ sẽ ở trạng thái "Chờ duyệt" tới khi quản trị viên kiểm duyệt.</p>
+        <div class="flex gap-2">
+          <button type="button" data-close-modal="modal-share" class="flex-1 py-2.5 rounded-lg border border-slate-300 text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
+          <button type="submit" class="flex-1 py-2.5 rounded-lg bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold shadow transition">Đăng bài</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal: danh sách đã lưu -->
+  <div id="modal-saved" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-saved"></div>
+    <div class="tw-modal-panel w-full max-w-md bg-white rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between p-5 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900"><i class="fa-solid fa-bookmark text-blue-500 mr-2"></i>Địa điểm đã lưu</h3>
+        <button type="button" data-close-modal="modal-saved" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="saved-list" class="p-5 space-y-2 max-h-96 overflow-y-auto"></div>
+    </div>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="traveler.js"></script>
+</body>
+</html>
+
+

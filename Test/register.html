@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', background: '#F8FAFC' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="assets/js/auth.js"></script>
+</head>
+<body class="bg-background flex items-center justify-center min-h-screen font-sans py-8">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-gray-100">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-primary mb-2">Tạo tài khoản mới</h1>
+            <p class="text-gray-500 text-sm">Chọn vai trò để bắt đầu</p>
+        </div>
+        
+        <form id="registerForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Vai trò của bạn</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="role" value="traveler" class="peer sr-only" checked>
+                        <div class="text-center p-2 border border-gray-200 rounded-lg peer-checked:border-accent peer-checked:bg-blue-50 hover:bg-gray-50 transition">
+                            <i class="fa-solid fa-suitcase block mb-1 text-gray-400 peer-checked:text-accent"></i>
+                            <span class="text-xs font-medium text-gray-600 peer-checked:text-accent">Du khách</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="role" value="guide" class="peer sr-only">
+                        <div class="text-center p-2 border border-gray-200 rounded-lg peer-checked:border-green-500 peer-checked:bg-green-50 hover:bg-gray-50 transition">
+                            <i class="fa-solid fa-map block mb-1 text-gray-400 peer-checked:text-green-500"></i>
+                            <span class="text-xs font-medium text-gray-600 peer-checked:text-green-600">HDV</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="role" value="admin" class="peer sr-only">
+                        <div class="text-center p-2 border border-gray-200 rounded-lg peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:bg-gray-50 transition">
+                            <i class="fa-solid fa-shield block mb-1 text-gray-400 peer-checked:text-purple-500"></i>
+                            <span class="text-xs font-medium text-gray-600 peer-checked:text-purple-600">Quản trị</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
+                <input type="text" id="registerName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none" placeholder="Nguyễn Văn A">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="registerEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none" placeholder="email@example.com">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                <input type="password" id="registerPassword" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none" placeholder="••••••••">
+            </div>
+            <button type="submit" class="w-full bg-primary hover:bg-secondary text-white font-semibold py-2.5 rounded-lg transition mt-4">Đăng ký</button>
+        </form>
+
+        <p class="text-center text-sm text-gray-600 mt-6">Đã có tài khoản? <a href="login.html" class="text-accent hover:underline font-medium">Đăng nhập</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Đối tác - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', warning: '#F97316', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Tổng quan Doanh nghiệp</h1>
+                    <p class="text-gray-500 text-sm">Theo dõi hiệu suất dịch vụ và đơn hàng của bạn.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sm text-gray-500 font-medium mb-1">Doanh thu tháng này</div>
+                        <div class="text-2xl font-bold text-gray-900">45.5tr đ</div>
+                        <div class="text-xs text-green-500 mt-2 font-medium"><i class="fa-solid fa-arrow-trend-up"></i> +12.5% so với tháng trước</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sm text-gray-500 font-medium mb-1">Đơn đặt mới</div>
+                        <div class="text-2xl font-bold text-gray-900">24</div>
+                        <div class="text-xs text-gray-500 mt-2 font-medium">Đang chờ xác nhận: 5</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sm text-gray-500 font-medium mb-1">Trải nghiệm đang hoạt động</div>
+                        <div class="text-2xl font-bold text-gray-900">3</div>
+                        <div class="text-xs text-gray-500 mt-2 font-medium">Chờ duyệt: 1</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sm text-gray-500 font-medium mb-1">Đánh giá trung bình</div>
+                        <div class="text-2xl font-bold text-gray-900">4.9 <i class="fa-solid fa-star text-yellow-400 text-lg"></i></div>
+                        <div class="text-xs text-gray-500 mt-2 font-medium">Dựa trên 156 nhận xét</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-2xl mx-auto space-y-4">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Cài đặt Hệ thống</h1>
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 space-y-4">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-100">
+                        <div>
+                            <h3 class="font-bold text-gray-900">Tính năng AI Itinerary</h3>
+                            <p class="text-sm text-gray-500">Cho phép du khách tạo lịch trình tự động</p>
+                        </div>
+                        <div class="w-12 h-6 bg-accent rounded-full relative cursor-pointer"><div class="w-4 h-4 bg-white rounded-full absolute right-1 top-1"></div></div>
+                    </div>
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-100">
+                        <div>
+                            <h3 class="font-bold text-gray-900">Chế độ Bảo trì</h3>
+                            <p class="text-sm text-gray-500">Tạm ngưng dịch vụ khách hàng</p>
+                        </div>
+                        <div class="w-12 h-6 bg-gray-200 rounded-full relative cursor-pointer"><div class="w-4 h-4 bg-white rounded-full absolute left-1 top-1 shadow"></div></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

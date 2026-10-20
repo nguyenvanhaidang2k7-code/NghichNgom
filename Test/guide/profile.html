@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ HDV - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <!-- Cover & Avatar -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-blue-500 to-accent relative">
+                        <button class="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full backdrop-blur transition"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="px-8 pb-8 relative">
+                        <div class="w-32 h-32 bg-white rounded-full p-1.5 -mt-16 relative mb-4">
+                            <img src="https://ui-avatars.com/api/?name=TB&background=10B981&color=fff&size=128" class="w-full h-full rounded-full object-cover">
+                            <button class="absolute bottom-2 right-2 bg-gray-900 text-white w-8 h-8 rounded-full flex items-center justify-center border-2 border-white hover:bg-gray-700 transition"><i class="fa-solid fa-camera text-xs"></i></button>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900 mb-1">Trần Thị B</h1>
+                                <p class="text-gray-500 mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-green-500"></i> Hướng dẫn viên được chứng nhận</p>
+                                <div class="flex gap-4 text-sm font-medium">
+                                    <span class="flex items-center gap-1 text-gray-700"><i class="fa-solid fa-star text-yellow-400"></i> 4.8 (124 đánh giá)</span>
+                                    <span class="flex items-center gap-1 text-gray-700"><i class="fa-solid fa-location-dot text-gray-400"></i> Hà Nội, Việt Nam</span>
+                                </div>
+                            </div>
+                            <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-medium text-sm transition">Chỉnh sửa hồ sơ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h2 class="font-bold text-gray-900 mb-4 text-lg">Giới thiệu</h2>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Xin chào! Tôi là Trần Thị B, một hướng dẫn viên đam mê khám phá và chia sẻ văn hóa Việt Nam. Với hơn 5 năm kinh nghiệm dẫn tour tại miền Bắc, đặc biệt là Hà Nội và các tỉnh vùng núi, tôi tự tin mang đến cho bạn những trải nghiệm chân thực và an toàn nhất.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h2 class="font-bold text-gray-900 mb-4 text-lg">Chuyên môn</h2>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">Văn hóa lịch sử</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">Ẩm thực đường phố</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">Trekking</span>
+                            </div>
+                            <h2 class="font-bold text-gray-900 mb-4 text-lg mt-6">Ngôn ngữ</h2>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li>Tiếng Việt (Bản ngữ)</li>
+                                <li>Tiếng Anh (Trôi chảy)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

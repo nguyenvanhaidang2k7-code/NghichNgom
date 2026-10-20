@@ -1,0 +1,42 @@
+/* =====================================================================
+   TripWeave AI – pages/partner-admin/partner-admin.css
+   Style RIÊNG của các trang PARTNER/ADMIN – nạp sau ../../css/style.css
+   (style.css vẫn giữ phần shell dùng chung: sidebar, toast, modal,
+    nav-link, stars, animation…)
+   Nội dung file này:
+     • .ph-img      – khung ảnh placeholder (không dùng ảnh ngoài)
+     • .bar-chart   – biểu đồ cột (admin-analytics, partner-analytics)
+     • .progress-*  – thanh tiến độ
+   ===================================================================== */
+
+/* ---------- Placeholder image (không dùng ảnh ngoài) ---------- */
+.ph-img {
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .35rem;
+  background: linear-gradient(135deg, #E0E7FF 0%, #DBEAFE 50%, #E0F2FE 100%);
+  color: #2563FB; font-weight: 600; text-align: center; padding: .5rem;
+}
+.ph-img.ph-green { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #047857; }
+.ph-img.ph-violet { background: linear-gradient(135deg, #EDE9FE, #DDD6FE); color: #6D28D9; }
+.ph-img.ph-amber { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #B45309; }
+.ph-img.ph-slate { background: linear-gradient(135deg, #E2E8F0, #CBD5E1); color: #334155; }
+.ph-img.ph-dark { background: linear-gradient(135deg, #1E293B, #0F172A); color: #E2E8F0; }
+.ph-img.ph-blue { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); color: #1D4ED8; }
+.ph-img.ph-red { background: linear-gradient(135deg, #FEE2E2, #FECACA); color: #B91C1C; }
+.ph-img.ph-emerald { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #047857; }
+
+/* ---------- Bar chart (CSS widget) ---------- */
+.bar-chart { display: flex; align-items: flex-end; gap: .75rem; height: 220px; }
+.bar-chart .bar {
+  flex: 1; border-radius: .5rem .5rem 0 0; background: var(--bar-color, #8B5CF6);
+  transition: height .6s ease, filter .2s; position: relative; min-height: 6px; cursor: pointer;
+}
+.bar-chart .bar:hover { filter: brightness(1.15); }
+.bar-chart .bar .bar-value {
+  position: absolute; top: -1.4rem; left: 50%; transform: translateX(-50%);
+  font-size: .7rem; font-weight: 700; color: #475569; opacity: 0; transition: opacity .2s; white-space: nowrap;
+}
+.bar-chart .bar:hover .bar-value { opacity: 1; }
+
+/* ---------- Progress ---------- */
+.progress-track { height: .5rem; background: #E2E8F0; border-radius: 9999px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #10B981, #8B5CF6); transition: width .3s ease; }

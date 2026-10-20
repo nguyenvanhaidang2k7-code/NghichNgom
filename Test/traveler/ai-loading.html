@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Đang xử lý - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-background flex flex-col items-center justify-center h-screen font-sans">
+    
+    <div class="relative mb-8">
+        <div class="w-24 h-24 border-4 border-gray-200 rounded-full"></div>
+        <div class="w-24 h-24 border-4 border-accent rounded-full border-t-transparent animate-spin absolute top-0 left-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-purple-600">
+            <i class="fa-solid fa-wand-magic-sparkles text-3xl animate-pulse"></i>
+        </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">TripWeave AI đang làm việc...</h2>
+    <p class="text-gray-500 mb-8 w-64 text-center h-6 transition-all duration-300" id="loading-text">Đang phân tích sở thích của bạn...</p>
+
+    <div class="w-64 bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
+        <div class="bg-gradient-to-r from-accent to-purple-500 h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%" id="progress-bar"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const texts = [
+                "Đang phân tích sở thích của bạn...",
+                "Đang tìm kiếm các điểm đến phù hợp...",
+                "Đang tính toán tối ưu khoảng cách...",
+                "Đang sắp xếp lịch trình hoàn hảo..."
+            ];
+            const textEl = document.getElementById('loading-text');
+            const progress = document.getElementById('progress-bar');
+            
+            let w = 0;
+            let textIdx = 0;
+            
+            const interval = setInterval(() => {
+                w += Math.random() * 15;
+                if(w >= 100) w = 100;
+                progress.style.width = w + '%';
+                
+                if (w > 25 && textIdx === 0) { textIdx = 1; textEl.textContent = texts[1]; }
+                else if (w > 50 && textIdx === 1) { textIdx = 2; textEl.textContent = texts[2]; }
+                else if (w > 75 && textIdx === 2) { textIdx = 3; textEl.textContent = texts[3]; }
+
+                if(w === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        window.location.href = 'ai-itinerary.html';
+                    }, 500);
+                }
+            }, 300);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đơn đặt hàng – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="partner-admin.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="partner" data-page="partner-orders">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6 space-y-6">
+      <div class="fade-up">
+        <h1 class="text-2xl font-bold text-slate-900"><i class="fa-solid fa-receipt text-violet-500 mr-2"></i>Đơn đặt hàng</h1>
+        <p class="text-sm text-slate-500 mt-0.5">Theo dõi và xử lý các đơn đặt dịch vụ từ du khách.</p>
+      </div>
+      <!-- Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 fade-up">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center"><i class="fa-solid fa-receipt"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-total">0</p><p class="text-[11px] text-slate-500">Tổng đơn</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-hourglass-half"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-pending">0</p><p class="text-[11px] text-slate-500">Chờ xác nhận</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-circle-check"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-confirmed">0</p><p class="text-[11px] text-slate-500">Đã xác nhận</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-flag-checkered"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-completed">0</p><p class="text-[11px] text-slate-500">Hoàn thành</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3 col-span-2 lg:col-span-1"><span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-sack-dollar"></i></span><div><p class="text-lg font-bold text-emerald-600" id="st-revenue">0đ</p><p class="text-[11px] text-slate-500">Doanh thu</p></div></div>
+      </div>
+      <!-- Toolbar -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col lg:flex-row gap-3 lg:items-center fade-up">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input id="od-search" type="text" class="w-full border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition" placeholder="Tìm theo mã đơn, khách hàng, dịch vụ...">
+        </div>
+        <select id="od-service" class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:border-violet-500 transition"></select>
+        <div class="flex gap-1 bg-slate-100 rounded-xl p-1 flex-wrap" id="od-status-tabs">
+          <button type="button" data-tab="Tất cả" class="otab px-3 py-1.5 rounded-lg text-xs font-semibold bg-violet-500 text-white transition">Tất cả</button>
+          <button type="button" data-tab="Pending" class="otab px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Chờ xác nhận</button>
+          <button type="button" data-tab="Confirmed" class="otab px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Đã xác nhận</button>
+          <button type="button" data-tab="Completed" class="otab px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Hoàn thành</button>
+          <button type="button" data-tab="Rejected" class="otab px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Từ chối</button>
+        </div>
+      </div>
+      <!-- Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden fade-up">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50 text-left text-xs uppercase tracking-wider text-slate-400">
+                <th class="px-4 py-3 font-semibold">Mã đơn</th>
+                <th class="px-4 py-3 font-semibold">Khách hàng</th>
+                <th class="px-4 py-3 font-semibold">Dịch vụ</th>
+                <th class="px-4 py-3 font-semibold">Ngày đặt</th>
+                <th class="px-4 py-3 font-semibold">Khách</th>
+                <th class="px-4 py-3 font-semibold">Tổng tiền</th>
+                <th class="px-4 py-3 font-semibold">Trạng thái</th>
+                <th class="px-4 py-3 font-semibold text-right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="od-tbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <p id="od-empty" class="hidden text-center text-sm text-slate-400 py-10">Không có đơn nào khớp bộ lọc.</p>
+      </div>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="partner-admin.js"></script>
+</body>
+</html>

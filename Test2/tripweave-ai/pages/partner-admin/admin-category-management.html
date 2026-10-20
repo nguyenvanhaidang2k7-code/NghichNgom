@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý danh mục – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="partner-admin.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="admin" data-page="admin-category-management">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 fade-up">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900"><i class="fa-solid fa-tags text-amber-500 mr-2"></i>Quản lý danh mục</h1>
+          <p class="text-sm text-slate-500 mt-0.5">Danh mục dùng để phân loại địa điểm khi du khách khám phá.</p>
+        </div>
+        <button type="button" id="cat-add-btn" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold shadow transition shrink-0"><i class="fa-solid fa-plus mr-1.5"></i>Thêm danh mục</button>
+      </div>
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-4 fade-up">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-tags"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-total">0</p><p class="text-xs text-slate-500">Tổng danh mục</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-toggle-on"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-active">0</p><p class="text-xs text-slate-500">Đang hoạt động</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center text-lg"><i class="fa-solid fa-toggle-off"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-inactive">0</p><p class="text-xs text-slate-500">Ngưng hoạt động</p></div></div>
+      </div>
+      <!-- Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden fade-up">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50 text-left text-xs uppercase tracking-wider text-slate-400">
+                <th class="px-4 py-3 font-semibold">Danh mục</th>
+                <th class="px-4 py-3 font-semibold">Số địa điểm</th>
+                <th class="px-4 py-3 font-semibold">Trạng thái</th>
+                <th class="px-4 py-3 font-semibold text-right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="cat-tbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <p id="cat-empty" class="hidden text-center text-sm text-slate-400 py-10">Chưa có danh mục nào.</p>
+      </div>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <!-- Category modal -->
+  <div id="modal-cat" class="tw-modal" hidden>
+    <div class="tw-modal-backdrop" data-close-modal="modal-cat"></div>
+    <div class="tw-modal-panel w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
+      <h3 id="cm-title" class="text-lg font-bold text-slate-900 mb-4">Thêm danh mục</h3>
+      <form id="cat-form" class="space-y-4">
+        <div>
+          <label for="cm-name" class="block text-sm font-medium text-slate-700 mb-1">Tên danh mục <span class="text-red-500">*</span></label>
+          <input type="text" id="cm-name" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-100 transition" placeholder="VD: Phiêu lưu">
+          <p class="text-xs text-slate-400 mt-1">Tên không được trùng với danh mục đã có.</p>
+        </div>
+        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+          <input type="checkbox" id="cm-active" checked class="w-4 h-4 accent-amber-500"> Kích hoạt ngay
+        </label>
+        <div class="flex gap-2 pt-1">
+          <button type="button" data-close-modal="modal-cat" class="flex-1 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition">Hủy</button>
+          <button type="submit" class="flex-1 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold shadow transition"><i class="fa-solid fa-floppy-disk mr-1.5"></i>Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="partner-admin.js"></script>
+</body>
+</html>

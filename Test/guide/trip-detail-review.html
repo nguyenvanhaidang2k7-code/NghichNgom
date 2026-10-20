@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết Review - TripWeave AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F172A', secondary: '#1E293B', accent: '#2563EB', success: '#10B981', warning: '#F97316', background: '#F8FAFC' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</head>
+<body class="bg-background text-gray-800 font-sans flex h-screen overflow-hidden">
+    <aside class="w-64 bg-primary text-white flex flex-col hidden md:flex h-full shrink-0">
+        <div class="p-4 flex items-center gap-3 font-bold text-xl border-b border-secondary">
+            <i class="fa-solid fa-earth-asia text-accent"></i> TripWeave AI
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav"></nav>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4"><button class="md:hidden text-gray-500"><i class="fa-solid fa-bars"></i></button></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 cursor-pointer group relative" id="user-menu-btn">
+                    <img id="topbar-user-avatar" src="" class="w-9 h-9 rounded-full">
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50" id="user-dropdown">
+                        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 bg-background relative" id="main-content">
+            <div class="max-w-4xl mx-auto">
+                <a href="trip-review.html" class="inline-flex items-center text-sm text-gray-500 hover:text-accent mb-6 transition">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại danh sách
+                </a>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 mb-1">Hành trình 5 Ngày 4 Đêm tại Hạ Long</h1>
+                            <p class="text-sm text-gray-500">Khách hàng: <strong>Nguyễn Văn A</strong> • Gửi 2 giờ trước</p>
+                        </div>
+                        <span class="px-3 py-1 bg-orange-50 text-warning text-sm font-semibold rounded-full border border-orange-100">Chờ review</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 border-t border-gray-100 pt-4 mt-4 text-sm">
+                        <div><span class="text-gray-500 block">Sở thích:</span><span class="font-medium">Thiên nhiên, Ẩm thực</span></div>
+                        <div><span class="text-gray-500 block">Ngân sách:</span><span class="font-medium">Tiêu chuẩn</span></div>
+                        <div><span class="text-gray-500 block">AI Đánh giá:</span><span class="font-medium text-purple-600"><i class="fa-solid fa-wand-magic-sparkles"></i> Phù hợp 95%</span></div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Day 1 Review -->
+                    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
+                            <h3 class="font-bold text-gray-900">Ngày 1: Đến với Kỳ quan thiên nhiên</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <div class="flex items-center gap-4 mb-2">
+                                    <div class="w-16 text-sm font-semibold text-gray-500">09:00</div>
+                                    <div class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-lg text-sm">
+                                        <span class="font-semibold">Bún chả Hương Liên</span> - Ăn sáng
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 mb-2">
+                                    <div class="w-16 text-sm font-semibold text-gray-500">14:00</div>
+                                    <div class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-lg text-sm">
+                                        <span class="font-semibold">Vịnh Hạ Long</span> - Check-in du thuyền
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 bg-blue-50/50 p-4 rounded-lg border border-blue-100">
+                                <label class="block text-sm font-semibold text-blue-900 mb-2">Nhận xét của HDV (Ngày 1):</label>
+                                <textarea id="feedback-input" class="w-full px-3 py-2 border border-blue-200 rounded-lg text-sm focus:ring-2 focus:ring-accent outline-none bg-white" rows="2" placeholder="Nhập nhận xét hoặc gợi ý sửa đổi cho ngày này..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end gap-3 bg-white p-4 rounded-xl border border-gray-100 shadow-sm sticky bottom-6">
+                    <button id="reject-btn" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">Từ chối</button>
+                    <button id="approve-btn" class="px-6 py-2 bg-accent hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-check"></i> Phê duyệt & Gửi lại
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tripId = urlParams.get('id') || 'trip-101';
+            
+            document.getElementById('approve-btn').addEventListener('click', () => {
+                const feedback = document.getElementById('feedback-input').value;
+                MockDB.updateTripStatus(tripId, 'approved', feedback);
+                alert('Đã phê duyệt lịch trình!');
+                window.location.href = 'trip-review.html';
+            });
+            
+            document.getElementById('reject-btn').addEventListener('click', () => {
+                const feedback = document.getElementById('feedback-input').value;
+                MockDB.updateTripStatus(tripId, 'rejected', feedback);
+                alert('Đã từ chối lịch trình!');
+                window.location.href = 'trip-review.html';
+            });
+        });
+    </script>
+</body>
+</html>

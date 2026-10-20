@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiểm duyệt nội dung – TripWeave AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="partner-admin.css">
+</head>
+<body class="bg-slate-50 min-h-screen" data-role="admin" data-page="admin-content-moderation">
+  <div id="sidebar-overlay"></div>
+  <aside id="app-sidebar"></aside>
+  <div class="md:pl-64 flex flex-col min-h-screen">
+    <header id="app-topbar"></header>
+    <main class="flex-1 p-4 md:p-6 space-y-6">
+      <div class="fade-up">
+        <h1 class="text-2xl font-bold text-slate-900"><i class="fa-solid fa-user-shield text-amber-500 mr-2"></i>Kiểm duyệt nội dung</h1>
+        <p class="text-sm text-slate-500 mt-0.5">Duyệt hoặc từ chối dịch vụ của đối tác và bài viết cộng đồng.</p>
+      </div>
+      <!-- Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-up">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-store"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-pending-acts">0</p><p class="text-xs text-slate-500">Dịch vụ chờ duyệt</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg"><i class="fa-regular fa-newspaper"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-pending-posts">0</p><p class="text-xs text-slate-500">Bài viết chờ duyệt</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-circle-check"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-approved">0</p><p class="text-xs text-slate-500">Đã duyệt</p></div></div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-red-50 text-red-500 flex items-center justify-center text-lg"><i class="fa-solid fa-ban"></i></span><div><p class="text-lg font-bold text-slate-900" id="st-rejected">0</p><p class="text-xs text-slate-500">Đã từ chối</p></div></div>
+      </div>
+      <!-- Tabs + search -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col md:flex-row gap-3 md:items-center md:justify-between fade-up">
+        <div class="flex gap-1 bg-slate-100 rounded-xl p-1" id="mod-tabs">
+          <button type="button" data-tab="Tất cả" class="mtab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-white transition">Tất cả</button>
+          <button type="button" data-tab="Dịch vụ" class="mtab px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Dịch vụ đối tác</button>
+          <button type="button" data-tab="Bài viết" class="mtab px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-200 transition">Bài viết cộng đồng</button>
+        </div>
+        <div class="relative md:w-72">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input id="mod-search" type="text" class="w-full border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-sm outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-100 transition" placeholder="Tìm nội dung...">
+        </div>
+      </div>
+      <!-- Queue -->
+      <div id="mod-list" class="space-y-3 fade-up"></div>
+      <p id="mod-empty" class="hidden text-center text-sm text-slate-400 py-10">Không có nội dung nào khớp bộ lọc.</p>
+    </main>
+    <footer class="px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">TripWeave AI • BTL-07 • CSE122 – Phát triển ứng dụng web cơ bản</footer>
+  </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="partner-admin.js"></script>
+</body>
+</html>
